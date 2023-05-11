@@ -67,7 +67,7 @@ service /Identity on new http:Listener(9090) {
         if result is error {
             return <types:AppServerError>{
                 body: {
-                    message: constants:CANNOT_RETRIEVE_FROM_DB
+                    message: constants:IDENTYTIY_CHECK_FAILED
                 }
             };
         }
