@@ -34,3 +34,17 @@ public isolated function getIdentity(string nicNumber)returns boolean|error {
     }
     return true;
 }
+
+public isolated function getPoliceStatus(string nicNumber)returns types:PoliceCheck|error|int {
+    stream<types:PoliceCheck, sql:Error?> idResultStream = databaseClient->query(PoliceCheckQuery(nicNumber));
+    types:PoliceCheck[] Result = check from var result in idResultStream
+        select result;
+
+    if Result.length() == 0 {
+        return error("NIC is not found");
+    }
+    if Result[0] == {"status":0}{
+        return 0;
+    }
+    return 1;
+}

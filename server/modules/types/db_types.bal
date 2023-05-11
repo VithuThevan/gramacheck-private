@@ -23,3 +23,7 @@ public type Request record {
 public type Identity record{
     string nic_number;
 };
+
+public type PoliceCheck record{
+    int status;
+};
