@@ -46,3 +46,17 @@ isolated function getRequestQuery(int requestId) returns sql:ParameterizedQuery 
         request_id = ${requestId}
     `;
 }
+
+isolated function getAddressQuery(int requestId) returns sql:ParameterizedQuery {
+    io:println("getAddress");
+    return `
+    SELECT 
+         house_no,
+         street,
+         city
+    FROM 
+        request
+    WHERE 
+        request_id = ${requestId}
+    `;
+}

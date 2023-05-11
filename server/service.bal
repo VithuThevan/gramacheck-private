@@ -58,4 +58,24 @@ returns types:Request|types:AppServerError|types:AppNotFoundError {
         }
         return result;
     }
+
+       isolated resource function get address/[int requestId]()
+returns types:Request|types:AppServerError|types:AppNotFoundError|string? {
+        error|string? result = database:getAddress(requestId);
+        if result is () {
+            return <types:AppNotFoundError>{
+                body: {
+                    message: constants:ID_NOT_FOUND
+                }
+            };
+        }
+        if result is error {
+            return <types:AppServerError>{
+                body: {
+                    message: constants:CANNOT_RETRIEVE_FROM_DB
+                }
+            };
+        }
+        return result;
+    }
 }
