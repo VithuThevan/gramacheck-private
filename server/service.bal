@@ -62,7 +62,7 @@ returns types:Request|types:AppServerError|types:AppNotFoundError {
 
 service /Identity on new http:Listener(9090) {
     isolated resource function get identity/[string nicNumber]()
-        returns boolean|types:AppServerError|types:AppNotFoundError {
+        returns boolean|types:AppServerError{
         boolean|error result = database:getIdentity(nicNumber);
         if result is error {
             return <types:AppServerError>{
