@@ -39,8 +39,8 @@ service /requestService on new http:Listener(9091) {
         };
     }
 
-isolated resource function get request/[int requestId]()
-returns types:Request|types:AppServerError|types:AppNotFoundError {
+    isolated resource function get request/[int requestId]()
+    returns types:Request|types:AppServerError|types:AppNotFoundError {
         types:Request|error? result = database:getRequest(requestId);
         if result is () {
             return <types:AppNotFoundError>{
@@ -62,7 +62,7 @@ returns types:Request|types:AppServerError|types:AppNotFoundError {
 
 service /Identity on new http:Listener(9090) {
     isolated resource function get identity/[string nicNumber]()
-        returns boolean|types:AppServerError{
+        returns boolean|types:AppServerError {
         boolean|error result = database:getIdentity(nicNumber);
         if result is error {
             return <types:AppServerError>{
@@ -75,3 +75,24 @@ service /Identity on new http:Listener(9090) {
     }
 }
 
+service /PoliceCheck on new http:Listener(9092) {
+    isolated resource function get policestatus/[string nicNumber]()
+        returns types:PoliceCheck|types:AppServerError|types:AppNotFoundError|int {
+        types:PoliceCheck|error?|int result = database:getPoliceStatus(nicNumber);
+        if result is () {
+            return <types:AppNotFoundError>{
+                body: {
+                    message: constants:ID_NOT_FOUND
+                }
+            };
+        }
+        if result is error {
+            return <types:AppServerError>{
+                body: {
+                    message: constants:CANNOT_RETRIEVE_FROM_DB
+                }
+            };
+        }
+        return result;
+    }
+}

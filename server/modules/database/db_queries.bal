@@ -58,3 +58,15 @@ isolated function getIdentityQuery(string nicNumber) returns sql:ParameterizedQu
         nic = ${nicNumber}
     `;
 }
+
+isolated function PoliceCheckQuery(string nicNumber) returns sql:ParameterizedQuery {
+    io:println("getPoliceCheckQuery");
+    return `
+    SELECT 
+       status
+    FROM 
+        criminal_history 
+    WHERE 
+        nic = ${nicNumber}
+    `;
+}
