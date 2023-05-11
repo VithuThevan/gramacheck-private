@@ -7,6 +7,27 @@
 dependencies-toml-version = "2"
 
 [[package]]
+org = "Gayathrilocal"
+name = "gramaCheck"
+version = "0.1.0"
+dependencies = [
+	{org = "ballerina", name = "http"},
+	{org = "ballerina", name = "io"},
+	{org = "ballerina", name = "sql"},
+	{org = "ballerina", name = "test"},
+	{org = "ballerinai", name = "observe"},
+	{org = "ballerinax", name = "mysql"},
+	{org = "ballerinax", name = "mysql.driver"}
+]
+modules = [
+	{org = "Gayathrilocal", packageName = "gramaCheck", moduleName = "gramaCheck"},
+	{org = "Gayathrilocal", packageName = "gramaCheck", moduleName = "gramaCheck.constants"},
+	{org = "Gayathrilocal", packageName = "gramaCheck", moduleName = "gramaCheck.database"},
+	{org = "Gayathrilocal", packageName = "gramaCheck", moduleName = "gramaCheck.types"},
+	{org = "Gayathrilocal", packageName = "gramaCheck", moduleName = "gramaCheck.util"}
+]
+
+[[package]]
 org = "ballerina"
 name = "auth"
 version = "2.5.0"
@@ -338,27 +359,6 @@ name = "mysql.driver"
 version = "1.4.1"
 modules = [
 	{org = "ballerinax", packageName = "mysql.driver", moduleName = "mysql.driver"}
-]
-
-[[package]]
-org = "vaishnavylocal"
-name = "gramaCheck"
-version = "0.1.0"
-dependencies = [
-	{org = "ballerina", name = "http"},
-	{org = "ballerina", name = "io"},
-	{org = "ballerina", name = "sql"},
-	{org = "ballerina", name = "test"},
-	{org = "ballerinai", name = "observe"},
-	{org = "ballerinax", name = "mysql"},
-	{org = "ballerinax", name = "mysql.driver"}
-]
-modules = [
-	{org = "vaishnavylocal", packageName = "gramaCheck", moduleName = "gramaCheck"},
-	{org = "vaishnavylocal", packageName = "gramaCheck", moduleName = "gramaCheck.constants"},
-	{org = "vaishnavylocal", packageName = "gramaCheck", moduleName = "gramaCheck.database"},
-	{org = "vaishnavylocal", packageName = "gramaCheck", moduleName = "gramaCheck.types"},
-	{org = "vaishnavylocal", packageName = "gramaCheck", moduleName = "gramaCheck.util"}
 ]
 
 
