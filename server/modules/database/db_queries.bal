@@ -47,6 +47,7 @@ isolated function getRequestQuery(int requestId) returns sql:ParameterizedQuery 
     `;
 }
 
+
 isolated function getIdentityQuery(string nicNumber) returns sql:ParameterizedQuery {
     io:println("getIdentityQuery");
     return `
@@ -56,5 +57,19 @@ isolated function getIdentityQuery(string nicNumber) returns sql:ParameterizedQu
         citizen
     WHERE 
         nic = ${nicNumber}
+    `;
+}
+
+isolated function getAddressQuery(int requestId) returns sql:ParameterizedQuery {
+    io:println("getAddress");
+    return `
+    SELECT 
+         house_no,
+         street,
+         city
+    FROM 
+        request
+    WHERE 
+        request_id = ${requestId}
     `;
 }

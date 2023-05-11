@@ -24,6 +24,7 @@ public isolated function getRequest(int requestId) returns types:Request|error {
     }
     return Result[0];
 }
+
 public isolated function getIdentity(string nicNumber)returns boolean|error {
     stream<types:Identity, sql:Error?> idResultStream = databaseClient->query(getIdentityQuery(nicNumber));
     types:Identity[] Result = check from var result in idResultStream
@@ -33,4 +34,15 @@ public isolated function getIdentity(string nicNumber)returns boolean|error {
         return error("NIC is not found");
     }
     return true;
+
+
+public isolated function getAddress(int requestId) returns error|string {
+    stream<types:Request, sql:Error?> rideResultStream = databaseClient->query(getAddressQuery(requestId));
+    types:Request[] Result = check from var result in rideResultStream
+        select result;
+
+    if Result.length() == 0 {
+        return error("Address not found");
+    }
+    return Result[0].house_no;
 }
