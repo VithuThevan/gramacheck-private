@@ -25,8 +25,8 @@ public isolated function getRequest(int requestId) returns types:Request|error {
     return Result[0];
 }
 public isolated function getIdentity(string nicNumber)returns boolean|error {
-    stream<types:Identity, sql:Error?> rideResultStream = databaseClient->query(getIdentityQuery(nicNumber));
-    types:Identity[] Result = check from var result in rideResultStream
+    stream<types:Identity, sql:Error?> idResultStream = databaseClient->query(getIdentityQuery(nicNumber));
+    types:Identity[] Result = check from var result in idResultStream
         select result;
 
     if Result.length() == 0 {
