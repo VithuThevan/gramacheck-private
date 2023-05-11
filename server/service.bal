@@ -22,7 +22,7 @@ import gramaCheck.constants;
     }
 }
 
-service / on new http:Listener(9091) {
+service /requestService on new http:Listener(9091) {
 
     isolated resource function post request(@http:Payload types:Request request)
     returns types:AppSuccess|types:AppServerError {
@@ -39,7 +39,7 @@ service / on new http:Listener(9091) {
         };
     }
 
-    isolated resource function get request/[int requestId]()
+isolated resource function get request/[int requestId]()
 returns types:Request|types:AppServerError|types:AppNotFoundError {
         types:Request|error? result = database:getRequest(requestId);
         if result is () {
@@ -79,3 +79,19 @@ returns types:Request|types:AppServerError|types:AppNotFoundError|string? {
         return result;
     }
 }
+
+service /Identity on new http:Listener(9090) {
+    isolated resource function get identity/[string nicNumber]()
+        returns boolean|types:AppServerError{
+        boolean|error result = database:getIdentity(nicNumber);
+        if result is error {
+            return <types:AppServerError>{
+                body: {
+                    message: constants:IDENTYTIY_CHECK_FAILED
+                }
+            };
+        }
+        return result;
+    }
+}
+

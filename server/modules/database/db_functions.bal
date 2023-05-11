@@ -20,10 +20,21 @@ public isolated function getRequest(int requestId) returns types:Request|error {
         select result;
 
     if Result.length() == 0 {
-        return error("Ride-ID not found");
+        return error("Request not found");
     }
     return Result[0];
 }
+
+public isolated function getIdentity(string nicNumber)returns boolean|error {
+    stream<types:Identity, sql:Error?> idResultStream = databaseClient->query(getIdentityQuery(nicNumber));
+    types:Identity[] Result = check from var result in idResultStream
+        select result;
+
+    if Result.length() == 0 {
+        return error("NIC is not found");
+    }
+    return true;
+
 
 public isolated function getAddress(int requestId) returns error|string {
     stream<types:Request, sql:Error?> rideResultStream = databaseClient->query(getAddressQuery(requestId));

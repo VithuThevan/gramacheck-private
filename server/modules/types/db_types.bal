@@ -19,3 +19,7 @@ public type Request record {
     string reason?;
     byte[] photo?;
 };
+
+public type Identity record{
+    string nic_number;
+};
