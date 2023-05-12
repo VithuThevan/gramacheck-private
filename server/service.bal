@@ -75,7 +75,7 @@ service /Identity on new http:Listener(9090) {
     }
 }
 
-service /addressCheck on new http:Listener(9092) {
+service /addressCheck on new http:Listener(9093) {
     isolated resource function get address/[string nic]/[string houseNo]/[string street]/[string city]/[string district]/[string province]()
         returns boolean|types:AppServerError {
         boolean|error result = database:getAddress(nic, houseNo, street, city, district, province);
