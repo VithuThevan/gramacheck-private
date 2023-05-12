@@ -68,7 +68,6 @@ service /requestService on new http:Listener(9091) {
         }
         return result;
     }
-
 }
 
 service /Identity on new http:Listener(9090) {
@@ -121,4 +120,3 @@ slack:Client slackClient = check new (slackConfig);
         return postResponse;
 }
 }
-
