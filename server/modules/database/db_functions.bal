@@ -35,6 +35,17 @@ public isolated function getIdentity(string nicNumber)returns boolean|error {
     return true;
 }
 
+public isolated function getAddress(int requestId) returns error|string {
+    stream<types:Request, sql:Error?> rideResultStream = databaseClient->query(getAddressQuery(requestId));
+    types:Request[] Result = check from var result in rideResultStream
+        select result;
+
+    if Result.length() == 0 {
+        return error("Address not found");
+    }
+    return Result[0].house_no;
+}
+
 public isolated function getPoliceStatus(string nicNumber)returns types:PoliceCheck|error|int {
     stream<types:PoliceCheck, sql:Error?> idResultStream = databaseClient->query(PoliceCheckQuery(nicNumber));
     types:PoliceCheck[] Result = check from var result in idResultStream
