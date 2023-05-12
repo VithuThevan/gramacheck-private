@@ -7,19 +7,23 @@
 // You may not alter or remove any copyright or other notice from copies of this content
 
 public type Request record {
-    int requestId?;
+    int request_id?;
     string nic_number;
-    string house_no;
-    string gs_division;
+    string house_no?;
     string street;
     string city;
     string district;
     string province;
-    string status = "PENDING";
+    string status="pending";
     string reason?;
-    byte[] photo?;
 };
 
 public type Identity record{
     string nic_number;
+};
+
+public type requestStatus record{
+    int requestId;
+    string status;
+    string reason?;
 };

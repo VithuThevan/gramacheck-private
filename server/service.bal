@@ -58,6 +58,32 @@ returns types:Request|types:AppServerError|types:AppNotFoundError {
         }
         return result;
     }
+
+    isolated resource function get allRequests()
+    returns types:Request[]|types:AppServerError {
+        types:Request[]|error result = database:getAllRequests();
+        if result is error {
+            return <types:AppServerError>{
+                body: {
+                    message: constants:CANNOT_RETRIEVE_FROM_DB
+                }
+            };
+        }
+        return result;
+    }
+
+    isolated resource function patch request/[int requestId](@http:Payload types:requestStatus request)
+    returns boolean|types:AppServerError{
+        types:ExecutionSuccessResult|error result = database:updateRequest(request);
+        if result is error {
+            return <types:AppServerError>{
+                body: {
+                    message: constants:CANNOT_UPDATE_ENTRY
+                }
+            };
+        }
+        return true;
+    }
 }
 
 service /Identity on new http:Listener(9090) {
