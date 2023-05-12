@@ -34,7 +34,7 @@ public isolated function getIdentity(string nicNumber)returns boolean|error {
         return error("NIC is not found");
     }
     return true;
-
+}
 
 public isolated function getAddress(int requestId) returns error|string {
     stream<types:Request, sql:Error?> rideResultStream = databaseClient->query(getAddressQuery(requestId));
