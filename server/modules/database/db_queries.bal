@@ -58,3 +58,19 @@ isolated function getIdentityQuery(string nicNumber) returns sql:ParameterizedQu
         nic = ${nicNumber}
     `;
 }
+
+isolated function getAddressQuery(string nicNumber) returns sql:ParameterizedQuery {
+    io:println("getAddressQuery");
+    return `
+    SELECT 
+        house_no,
+        street,
+        city,
+        district,
+        province
+    FROM 
+        citizen
+    WHERE 
+        nic = ${nicNumber}
+    `;
+}

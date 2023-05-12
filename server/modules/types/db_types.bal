@@ -23,3 +23,11 @@ public type Request record {
 public type Identity record{
     string nic_number;
 };
+
+public type Address record {
+    string house_no;
+    string street;
+    string city;
+    string district;
+    string province;
+};
