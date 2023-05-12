@@ -26,7 +26,7 @@ public isolated function getRequest(int requestId) returns types:Request|error {
     return Result[0];
 }
 
-public isolated function getIdentity(string nicNumber)returns boolean|error {
+public isolated function getIdentity(string nicNumber) returns boolean|error {
     stream<types:Identity, sql:Error?> idResultStream = databaseClient->query(getIdentityQuery(nicNumber));
     types:Identity[] Result = check from var result in idResultStream
         select result;
@@ -37,18 +37,26 @@ public isolated function getIdentity(string nicNumber)returns boolean|error {
     return true;
 }
 
-public isolated function getAddress(string nic, string houseNo, string street, string city, string district, string province) returns boolean|error {
-    stream<types:Address, sql:Error?> idResultStream = databaseClient->query(getAddressQuery(nic.toLowerAscii()));
-    types:Address[] Result = check from var result in idResultStream
+public isolated function getAddress(int requestId) returns boolean|error {
+    stream<types:Request, sql:Error?> requestResultStream = databaseClient->query(getRequestQuery(requestId));
+    types:Request[] RequestResult = check from var result in requestResultStream
         select result;
 
-    if (Result.length() > 0) {
-        if (province.equalsIgnoreCaseAscii(Result[0].province)) {
-            if (district.equalsIgnoreCaseAscii(Result[0].district)) {
-                if (city.equalsIgnoreCaseAscii(Result[0].city)) {
-                    if (street.equalsIgnoreCaseAscii(Result[0].street)) {
-                        if (houseNo.equalsIgnoreCaseAscii(Result[0].house_no)) {
-                            io:println("Address is equal");
+    if (RequestResult.length() > 0) {
+        stream<types:Address, sql:Error?> addressResultStream = databaseClient->query(getAddressQuery(RequestResult[0].nic_number.toLowerAscii()));
+        types:Address[] AddressResult = check from var result in addressResultStream
+            select result;
+
+        if (AddressResult.length() > 0) {
+            if (RequestResult[0].province.equalsIgnoreCaseAscii(AddressResult[0].province)) {
+                if (RequestResult[0].district.equalsIgnoreCaseAscii(AddressResult[0].district)) {
+                    if (RequestResult[0].city.equalsIgnoreCaseAscii(AddressResult[0].city)) {
+                        if (RequestResult[0].street.equalsIgnoreCaseAscii(AddressResult[0].street)) {
+                            if (RequestResult[0].house_no.equalsIgnoreCaseAscii(AddressResult[0].house_no)) {
+                                io:println("Address is equal");
+                            } else {
+                                return error("Address does not match");
+                            }
                         } else {
                             return error("Address does not match");
                         }
@@ -61,11 +69,12 @@ public isolated function getAddress(string nic, string houseNo, string street, s
             } else {
                 return error("Address does not match");
             }
+
         } else {
-            return error("Address does not match");
+            return error("NIC is not found");
         }
     } else {
-        return error("Address is not found");
+        return error("Request is not found");
     }
     return true;
 }
