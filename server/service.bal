@@ -9,6 +9,15 @@ import ballerina/http;
 import gramaCheck.types;
 import gramaCheck.database;
 import gramaCheck.constants;
+import ballerinax/slack;
+
+slack:ConnectionConfig slackConfig = {
+    auth: {
+        token: "SLACK_USER_OAUTH_TOKEN"
+    }
+};
+
+
 
 @http:ServiceConfig {
     cors: {
@@ -39,8 +48,9 @@ service /requestService on new http:Listener(9091) {
         };
     }
 
-isolated resource function get request/[int requestId]()
-returns types:Request|types:AppServerError|types:AppNotFoundError {
+
+    isolated resource function get request/[int requestId]()
+    returns types:Request|types:AppServerError|types:AppNotFoundError {
         types:Request|error? result = database:getRequest(requestId);
         if result is () {
             return <types:AppNotFoundError>{
@@ -59,9 +69,27 @@ returns types:Request|types:AppServerError|types:AppNotFoundError {
         return result;
     }
 
-       isolated resource function get address/[int requestId]()
-returns types:Request|types:AppServerError|types:AppNotFoundError|string? {
-        error|string? result = database:getAddress(requestId);
+}
+
+service /Identity on new http:Listener(9090) {
+    isolated resource function get identity/[string nicNumber]()
+        returns boolean|types:AppServerError {
+        boolean|error result = database:getIdentity(nicNumber);
+        if result is error {
+            return <types:AppServerError>{
+                body: {
+                    message: constants:IDENTYTIY_CHECK_FAILED
+                }
+            };
+        }
+        return result;
+    }
+}
+
+service /PoliceCheck on new http:Listener(9092) {
+    isolated resource function get policestatus/[string nicNumber]()
+        returns types:PoliceCheck|types:AppServerError|types:AppNotFoundError|int {
+        types:PoliceCheck|error?|int result = database:getPoliceStatus(nicNumber);
         if result is () {
             return <types:AppNotFoundError>{
                 body: {
@@ -78,20 +106,19 @@ returns types:Request|types:AppServerError|types:AppNotFoundError|string? {
         }
         return result;
     }
-}
 
-service /Identity on new http:Listener(9090) {
-    isolated resource function get identity/[string nicNumber]()
-        returns boolean|types:AppServerError{
-        boolean|error result = database:getIdentity(nicNumber);
-        if result is error {
-            return <types:AppServerError>{
-                body: {
-                    message: constants:IDENTYTIY_CHECK_FAILED
-                }
-            };
-        }
-        return result;
-    }
+
+    isolated resource function post help(string user_message) returns string|error {
+slack:ConnectionConfig slackConfig = {auth: {token: "xoxp-5256072341092-5266218610033-5239233348167-1989138e707a1122a2a9a2fde4d243e2"}};
+slack:Client slackClient = check new (slackConfig);
+
+        slack:Message messageParams = {
+            channelName: "gramacheck-app",
+            text: user_message
+        };
+        string postResponse = check slackClient->postMessage(messageParams);
+        check slackClient->joinConversation("gramacheck-app");
+        return postResponse;
+}
 }
 

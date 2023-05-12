@@ -73,3 +73,16 @@ isolated function getAddressQuery(int requestId) returns sql:ParameterizedQuery 
         request_id = ${requestId}
     `;
 }
+
+isolated function PoliceCheckQuery(string nicNumber) returns sql:ParameterizedQuery {
+    io:println("getPoliceCheckQuery");
+    return `
+    SELECT 
+       status
+    FROM 
+        criminal_history 
+    WHERE 
+        nic = ${nicNumber}
+    `;
+}
+
