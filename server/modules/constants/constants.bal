@@ -12,5 +12,6 @@ public enum Enum {
     CANNOT_ADD_ENTRY = "Could not add new entry",
     CANNOT_GET_ENTRY = "Could not get entry",
     USER_UNAUTHORIZED = "You are Unauthorized for this action/page. Try Logging in again. If this issue persists please contact internal-apps team.",
-    IDENTYTIY_CHECK_FAILED = "Identity check failed"
+    IDENTYTIY_CHECK_FAILED = "Identity check failed",
+    ADDRESS_CHECK_FAILED = "Address check failed"
 }
