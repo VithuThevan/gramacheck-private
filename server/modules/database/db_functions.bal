@@ -70,11 +70,8 @@ public isolated function getAddress(int requestId) returns boolean|error {
                 if (RequestResult[0].district.equalsIgnoreCaseAscii(AddressResult[0].district)) {
                     if (RequestResult[0].city.equalsIgnoreCaseAscii(AddressResult[0].city)) {
                         if (RequestResult[0].street.equalsIgnoreCaseAscii(AddressResult[0].street)) {
-                            if (RequestResult[0].house_no.equalsIgnoreCaseAscii(AddressResult[0].house_no)) {
                                 io:println("Address is equal");
-                            } else {
-                                return error("Address does not match");
-                            }
+                        
                         } else {
                             return error("Address does not match");
                         }
