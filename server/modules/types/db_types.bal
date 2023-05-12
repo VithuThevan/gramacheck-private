@@ -27,3 +27,11 @@ public type Identity record{
 public type PoliceCheck record{
     int status;
 };
+
+public type Address record {
+    string house_no;
+    string street;
+    string city;
+    string district;
+    string province;
+};

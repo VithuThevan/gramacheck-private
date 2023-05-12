@@ -8,6 +8,7 @@
 import ballerinax/mysql.driver as _;
 import ballerina/sql;
 import gramaCheck.types;
+import ballerina/io;
 
 public isolated function addRequest(types:Request request) returns types:ExecutionSuccessResult|error {
     sql:ExecutionResult result = check databaseClient->execute(check addRequestQuery(request));
@@ -24,7 +25,8 @@ public isolated function getRequest(int requestId) returns types:Request|error {
     }
     return Result[0];
 }
-public isolated function getIdentity(string nicNumber)returns boolean|error {
+
+public isolated function getIdentity(string nicNumber) returns boolean|error {
     stream<types:Identity, sql:Error?> idResultStream = databaseClient->query(getIdentityQuery(nicNumber));
     types:Identity[] Result = check from var result in idResultStream
         select result;
@@ -35,18 +37,49 @@ public isolated function getIdentity(string nicNumber)returns boolean|error {
     return true;
 }
 
-public isolated function getAddress(int requestId) returns error|string {
-    stream<types:Request, sql:Error?> rideResultStream = databaseClient->query(getAddressQuery(requestId));
-    types:Request[] Result = check from var result in rideResultStream
+public isolated function getAddress(int requestId) returns boolean|error {
+    stream<types:Request, sql:Error?> requestResultStream = databaseClient->query(getRequestQuery(requestId));
+    types:Request[] RequestResult = check from var result in requestResultStream
         select result;
 
-    if Result.length() == 0 {
-        return error("Address not found");
+    if (RequestResult.length() > 0) {
+        stream<types:Address, sql:Error?> addressResultStream = databaseClient->query(getAddressQuery(RequestResult[0].nic_number.toLowerAscii()));
+        types:Address[] AddressResult = check from var result in addressResultStream
+            select result;
+
+        if (AddressResult.length() > 0) {
+            if (RequestResult[0].province.equalsIgnoreCaseAscii(AddressResult[0].province)) {
+                if (RequestResult[0].district.equalsIgnoreCaseAscii(AddressResult[0].district)) {
+                    if (RequestResult[0].city.equalsIgnoreCaseAscii(AddressResult[0].city)) {
+                        if (RequestResult[0].street.equalsIgnoreCaseAscii(AddressResult[0].street)) {
+                            if (RequestResult[0].house_no.equalsIgnoreCaseAscii(AddressResult[0].house_no)) {
+                                io:println("Address is equal");
+                            } else {
+                                return error("Address does not match");
+                            }
+                        } else {
+                            return error("Address does not match");
+                        }
+                    } else {
+                        return error("Address does not match");
+                    }
+                } else {
+                    return error("Address does not match");
+                }
+            } else {
+                return error("Address does not match");
+            }
+
+        } else {
+            return error("NIC is not found");
+        }
+    } else {
+        return error("Request is not found");
     }
-    return Result[0].house_no;
+    return true;
 }
 
-public isolated function getPoliceStatus(string nicNumber)returns types:PoliceCheck|error|int {
+public isolated function getPoliceStatus(string nicNumber) returns types:PoliceCheck|error|int {
     stream<types:PoliceCheck, sql:Error?> idResultStream = databaseClient->query(PoliceCheckQuery(nicNumber));
     types:PoliceCheck[] Result = check from var result in idResultStream
         select result;
@@ -54,7 +87,7 @@ public isolated function getPoliceStatus(string nicNumber)returns types:PoliceCh
     if Result.length() == 0 {
         return error("NIC is not found");
     }
-    if Result[0] == {"status":0}{
+    if Result[0] == {"status": 0} {
         return 0;
     }
     return 1;
