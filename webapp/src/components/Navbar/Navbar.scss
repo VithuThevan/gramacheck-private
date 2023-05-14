@@ -1,0 +1,112 @@
+/* ----- GetStarted.scss ----- */
+@import "../../utils/styles/Theme.scss";
+
+.navbar {
+  width: 100%;
+  height: 80px;
+  //   background-color: lightgreen;
+
+  @include flexbox;
+
+  .navbar__container {
+    width: 95%;
+    height: 100%;
+    // background-color: lightcoral;
+
+    @include flexbox;
+
+    .navbar__logo {
+      width: 240px;
+      height: 100%;
+      //   background-color: lightcyan;
+
+      @include flexbox;
+      justify-content: flex-start;
+
+      img {
+        height: 40px;
+      }
+    }
+    .navbar__username {
+      width: calc(100% - 450px);
+      height: 100%;
+      //   background-color: lightpink;
+
+      @include flexbox;
+      justify-content: flex-end;
+      padding-right: 10px;
+
+      p {
+        font-size: $font-regular;
+        color: $grey-regular;
+        font-weight: $font-weight-medium;
+      }
+    }
+    .navbar__userimage {
+      width: 50px;
+      height: 100%;
+      //   background-color: lightcyan;
+
+      @include flexbox;
+
+      img {
+        height: 40px;
+        width: 40px;
+
+        border-radius: 50%;
+        border: 2px solid $primary-regular;
+
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+    .navbar__signout {
+      width: 160px;
+      height: 100%;
+      //   background-color: lightpink;
+
+      @include flexbox;
+      justify-content: flex-end;
+    }
+  }
+}
+
+// Media Queries
+
+@media (width<=700px) {
+  .navbar {
+    .navbar__container {
+      .navbar__logo {
+        width: calc(100% - 210px);
+      }
+      .navbar__username {
+        display: none;
+      }
+      .navbar__userimage {
+        width: 50px;
+      }
+      .navbar__signout {
+        width: 160px;
+      }
+    }
+  }
+}
+
+@media (width<=700px) {
+  .navbar {
+    .navbar__container {
+      .navbar__logo {
+        width: calc(100% - 210px);
+      }
+      .navbar__username {
+        display: none;
+      }
+      .navbar__userimage {
+        display: none;
+      }
+      .navbar__signout {
+        width: 210px;
+      }
+    }
+  }
+}
