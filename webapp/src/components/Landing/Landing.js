@@ -9,7 +9,7 @@ import LandingSVG from "../../assets/images/svg/landing.svg";
 // Components
 import Button from "../../ui-library/Button/Button";
 
-function Landing() {
+function Landing({ signIn, signOut }) {
   return (
     <div className="landing">
       <div className="landing__logo">
@@ -27,8 +27,12 @@ function Landing() {
               <p>Your Local Digital Certificate</p>
             </div>
             <div className="landing__body__buttons">
-              <Button variant="primary">SIGNUP</Button>
-              <Button variant="secondary">LOGIN</Button>
+              <Button variant="primary" onClick={() => signOut()}>
+                SIGNOUT
+              </Button>
+              <Button variant="secondary" onClick={() => signIn()}>
+                LOGIN
+              </Button>
             </div>
           </div>
           <div className="landing__body__image">
