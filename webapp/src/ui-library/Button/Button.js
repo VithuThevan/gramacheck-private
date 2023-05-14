@@ -1,84 +1,46 @@
 /* ----- Button.js ----- */
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./Button.scss";
 
-// Utils
-import { Colors } from "../../utils/styles/Theme.js";
-
-// Libraries & Packages
-import Color from "color";
-
-function Button({ variant, children }) {
-  // State
-  const [buttonBackgroundColor, setButtonBackgroundColor] = useState();
-  const [buttonTextColor, setButtonTextColor] = useState();
-
-  // Functions
-  const handleOnMouseEnter = () => {
+function Button({ variant, children, onClick }) {
+  //Functions
+  const setClassName = () => {
     // Primary
     if (variant === "primary") {
-      setButtonBackgroundColor(Color(Colors.primary_regular).darken(0.2));
+      return "uiLibrary__button__primary";
     }
     // Secondary
-    if (variant === "secondary") {
-      setButtonBackgroundColor(Color(Colors.grey_light).darken(0.1));
+    else if (variant === "secondary") {
+      return "uiLibrary__button__secondary";
     }
     // Default
     else {
-      setButtonBackgroundColor(Color(Colors.primary_regular).darken(0.2));
-    }
-  };
-
-  const handleOnMouseLeave = () => {
-    // Primary
-    if (variant === "primary") {
-      setButtonBackgroundColor(Colors.primary_regular);
-      setButtonTextColor(Colors.white);
-    }
-    // Secondary
-    if (variant === "secondary") {
-      setButtonBackgroundColor(Colors.grey_light);
-      setButtonTextColor(Colors.black);
-    }
-    // Default
-    else {
-      setButtonBackgroundColor(Colors.primary_regular);
-      setButtonTextColor(Colors.white);
+      return "uiLibrary__button__primary";
     }
   };
 
   // useEffect
   useEffect(() => {
-    const setOnLoadStyles = () => {
+    const setClassName = () => {
       // Primary
       if (variant === "primary") {
-        setButtonBackgroundColor(Colors.primary_regular);
-        setButtonTextColor(Colors.white);
+        return "uiLibrary__button__primary";
       }
       // Secondary
-      if (variant === "secondary") {
-        setButtonBackgroundColor(Colors.grey_light);
-        setButtonTextColor(Colors.black);
+      else if (variant === "secondary") {
+        return "uiLibrary__button__secondary";
       }
       // Default
       else {
-        setButtonBackgroundColor(Colors.primary_regular);
-        setButtonTextColor(Colors.white);
+        return "uiLibrary__button__primary";
       }
     };
-    setOnLoadStyles();
-    return () => setOnLoadStyles();
+    setClassName();
+    return () => setClassName();
   }, [variant]);
 
   return (
-    <button
-      className="uiLibrary__button"
-      // Styles
-      style={{ backgroundColor: buttonBackgroundColor, color: buttonTextColor }}
-      // Events
-      onMouseEnter={() => handleOnMouseEnter()}
-      onMouseLeave={() => handleOnMouseLeave()}
-    >
+    <button className={setClassName()} onClick={() => onClick()}>
       {children}
     </button>
   );
