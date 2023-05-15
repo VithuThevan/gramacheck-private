@@ -16,14 +16,32 @@ public isolated function addRequest(types:Request request) returns types:Executi
 }
 
 public isolated function getRequest(int requestId) returns types:Request|error {
-    stream<types:Request, sql:Error?> rideResultStream = databaseClient->query(getRequestQuery(requestId));
-    types:Request[] Result = check from var result in rideResultStream
+    stream<types:Request, sql:Error?> requestResultStream = databaseClient->query(getRequestQuery(requestId));
+    types:Request[] Result = check from var result in requestResultStream
         select result;
 
     if Result.length() == 0 {
         return error("Request not found");
     }
     return Result[0];
+}
+
+public isolated function getAllRequests() returns types:Request[]|error {
+    stream<types:Request, sql:Error?> requestResultStream = databaseClient->query(getAllRequestQuery());
+    types:Request[] Result = check from var result in requestResultStream
+        select result;
+
+    if Result.length() == 0 {
+        return error("Request not found");
+    }
+
+    check requestResultStream.close();
+    return Result;
+}
+
+public isolated function updateRequest(types:requestStatus request) returns types:ExecutionSuccessResult|error {
+    sql:ExecutionResult result = check databaseClient->execute(updateRequestQuery(request));
+    return result.cloneWithType(types:ExecutionSuccessResult);
 }
 
 public isolated function getIdentity(string nicNumber) returns boolean|error {
@@ -52,11 +70,8 @@ public isolated function getAddress(int requestId) returns boolean|error {
                 if (RequestResult[0].district.equalsIgnoreCaseAscii(AddressResult[0].district)) {
                     if (RequestResult[0].city.equalsIgnoreCaseAscii(AddressResult[0].city)) {
                         if (RequestResult[0].street.equalsIgnoreCaseAscii(AddressResult[0].street)) {
-                            if (RequestResult[0].house_no.equalsIgnoreCaseAscii(AddressResult[0].house_no)) {
-                                io:println("Address is equal");
-                            } else {
-                                return error("Address does not match");
-                            }
+                            io:println("Address is equal");
+
                         } else {
                             return error("Address does not match");
                         }
@@ -77,4 +92,18 @@ public isolated function getAddress(int requestId) returns boolean|error {
         return error("Request is not found");
     }
     return true;
+}
+
+public isolated function getPoliceStatus(string nicNumber) returns types:PoliceCheck|error|int {
+    stream<types:PoliceCheck, sql:Error?> idResultStream = databaseClient->query(PoliceCheckQuery(nicNumber));
+    types:PoliceCheck[] Result = check from var result in idResultStream
+        select result;
+
+    if Result.length() == 0 {
+        return error("NIC is not found");
+    }
+    if Result[0] == {"status": 0} {
+        return 0;
+    }
+    return 1;
 }

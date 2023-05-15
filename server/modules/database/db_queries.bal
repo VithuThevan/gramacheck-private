@@ -15,7 +15,6 @@ isolated function addRequestQuery(types:Request request) returns sql:Parameteriz
     INSERT INTO 
         request (
             nic_number,
-            gs_division,
             house_no,
             street,
             city,
@@ -24,7 +23,6 @@ isolated function addRequestQuery(types:Request request) returns sql:Parameteriz
          )
     VALUES (
            ${request.nic_number},
-            ${request.gs_division},
             ${request.house_no},
             ${request.street},
             ${request.city},
@@ -44,6 +42,30 @@ isolated function getRequestQuery(int requestId) returns sql:ParameterizedQuery 
         request
     WHERE 
         request_id = ${requestId}
+    `;
+}
+
+isolated function getAllRequestQuery() returns sql:ParameterizedQuery {
+    io:println("getAllRequestQuery");
+    return `
+    SELECT 
+       *
+    FROM 
+        request
+        WHERE status ="pending"
+    `;
+}
+
+isolated function updateRequestQuery(types:requestStatus request) returns sql:ParameterizedQuery {
+    io:println("updateRequestQuery");
+
+    return `
+    UPDATE 
+        request
+    SET 
+        status = ${request.status},reason = ${request.reason}
+    WHERE 
+        request_id = ${request.requestId}
     `;
 }
 
@@ -70,6 +92,18 @@ isolated function getAddressQuery(string nicNumber) returns sql:ParameterizedQue
         province
     FROM 
         citizen
+    WHERE 
+        nic = ${nicNumber}
+    `;
+}
+
+isolated function PoliceCheckQuery(string nicNumber) returns sql:ParameterizedQuery {
+    io:println("getPoliceCheckQuery");
+    return `
+    SELECT 
+       status
+    FROM 
+        criminal_history 
     WHERE 
         nic = ${nicNumber}
     `;
