@@ -14,6 +14,7 @@ public type Request record {
     string city;
     string district;
     string province;
+    string email;
     string status = "pending";
     string reason?;
 };

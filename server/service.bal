@@ -39,9 +39,9 @@ service /requestService on new http:Listener(9091) {
         };
     }
 
-    isolated resource function get request/[int requestId]()
+    isolated resource function get request/[string email]()
     returns types:Request|types:AppServerError|types:AppNotFoundError {
-        types:Request|error? result = database:getRequest(requestId);
+        types:Request|error? result = database:getRequest(email);
         if result is () {
             return <types:AppNotFoundError>{
                 body: {
