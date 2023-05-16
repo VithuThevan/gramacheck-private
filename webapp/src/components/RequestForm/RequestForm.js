@@ -22,7 +22,6 @@ function RequestForm() {
   const [district, setDistrict] = useState("");
   const [province, setProvince] = useState("");
   const [nicError, setNicError] = useState("");
-  const [houseNumberError, setHouseNumberError] = useState("");
   const [streetError, setStreetError] = useState("");
   const [cityError, setCityError] = useState("");
   // Choreo base endpoint
@@ -91,14 +90,6 @@ function RequestForm() {
         setNicError("");
       }
   
-      // Validate House Number
-      if (!houseNumber) {
-        setHouseNumberError("House Number is required");
-        isValid = false;
-      } else {
-        setHouseNumberError("");
-      }
-  
       // Validate Street
       if (!street) {
         setStreetError("Street is required");
@@ -135,9 +126,6 @@ function RequestForm() {
         window.location.href = "/request-success";
     } }).catch(error => console.log(error))
   }
-  }
-     window.location.href = "/request-success";
-    } }).catch(error => console.log(error))
   }
 
   return (
@@ -178,9 +166,7 @@ function RequestForm() {
                   setState={sethHouseNumber}
                 />
                 
-              </div>
-              {houseNumberError && <div className="error-message" style={{ color: 'red',fontSize: 12 }}>{houseNumberError}</div>}
-             
+              </div>             
               {/* Street */}
               <div className="requestForm__content_card__item">
                 <InputText
