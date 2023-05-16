@@ -12,6 +12,7 @@ import Navbar from "../Navbar/Navbar";
 import InputText from "../../ui-library/InputText/InputText";
 import InputSelect from "../../ui-library/InputSelect/InputSelect";
 import Color from "color";
+import { useAuthContext } from "@asgardeo/auth-react";
 
 function RequestForm() {
   // State
@@ -24,6 +25,9 @@ function RequestForm() {
   const [nicError, setNicError] = useState("");
   const [streetError, setStreetError] = useState("");
   const [cityError, setCityError] = useState("");
+
+  const { state } = useAuthContext();
+
   // Choreo base endpoint
   const API_HOST = "https://f82fbb50-01e1-4078-a9f8-0d4ed79a518a-dev.e1-us-east-azure.choreoapis.dev/sbmq/grama-check/requestservice-369/1.0.0";
 
@@ -34,12 +38,12 @@ function RequestForm() {
     const regex = /^(\d{9}[vx])|(\d{12})$/; // Regular expression to validate the NIC format
     return regex.test(nic);
   };
+
   // useEffect
   useEffect(() => {
     const selectProvince = () => {
       if (district) {
         if (["Colombo", "Gampaha", "Kalutara"].includes(district)) {
-          console.log("hurray");
           setProvince("Western");
         } else if (["Kandy", "Matale", "Nuwara Eliya"].includes(district)) {
           setProvince("Kandy");
@@ -77,56 +81,58 @@ function RequestForm() {
   // Fucnctions
   const submitRequest = () => {
 
-      let isValid = true;
+    let isValid = true;
 
-      // Validate NIC
-         if (!NIC) {
-          setNicError("NIC is required");
-          isValid = false;
-        } else if (!validateNIC(NIC)) {
-        setNicError("Invalid NIC, please enter a valid Sri Lankan NIC number");
-        setNIC("");
-        isValid = false;
-      } else {
-        setNicError("");
-      }
-  
-      // Validate Street
-      if (!street) {
-        setStreetError("Street is required");
-        isValid = false;
-      } else {
-        setStreetError("");
-      }
-  
-      // Validate City
-      if (!city) {
-        setCityError("City is required");
-        isValid = false;
-      } else {
-        setCityError("");
-      }
-      if (isValid){
-    const requestDetails = { nic_number: NIC, house_no: houseNumber, street: street, city: city, district: district, province: province };
+    // Validate NIC
+    if (!NIC) {
+      setNicError("NIC is required");
+      isValid = false;
+    } else if (!validateNIC(NIC)) {
+      setNicError("Invalid NIC, please enter a valid Sri Lankan NIC number");
+      setNIC("");
+      isValid = false;
+    } else {
+      setNicError("");
+    }
 
-    var url = API_HOST + "/request";
+    // Validate Street
+    if (!street) {
+      setStreetError("Street is required");
+      isValid = false;
+    } else {
+      setStreetError("");
+    }
 
-    var requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + TOKEN,
-      },
-      body: JSON.stringify(requestDetails),
-      redirect: "follow",
-    };
+    // Validate City
+    if (!city) {
+      setCityError("City is required");
+      isValid = false;
+    } else {
+      setCityError("");
+    }
 
-    fetch(url, requestOptions).then(response => {
-      if (response.ok) {
-        console.log("Request submitted successfully");
-        window.location.href = "/request-success";
-    } }).catch(error => console.log(error))
-  }
+    if (isValid) {
+      const requestDetails = { nic_number: NIC, house_no: houseNumber, street: street, city: city, district: district, province: province, email: state.username };
+
+      var url = API_HOST + "/request";
+
+      var requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + TOKEN,
+        },
+        body: JSON.stringify(requestDetails),
+        redirect: "follow",
+      };
+
+      fetch(url, requestOptions).then(response => {
+        if (response.ok) {
+          console.log("Request submitted successfully");
+          window.location.href = "/request-success";
+        }
+      }).catch(error => console.log(error))
+    }
   };
 
   return (
@@ -149,7 +155,7 @@ function RequestForm() {
                   state={NIC}
                   setState={setNIC}
                 />
-              </div>{nicError && <div className="error-message" style={{ color: 'red',fontSize: 12 }}>{nicError}</div>}
+              </div>{nicError && <div className="error-message" style={{ color: 'red', fontSize: 12 }}>{nicError}</div>}
 
 
               <div className="requestForm__content_card__item requestForm__content_card__item__title">
@@ -158,7 +164,7 @@ function RequestForm() {
                 <div></div>
               </div>
               {/* House Number */}
-           
+
               <div className="requestForm__content_card__item">
                 <InputText
                   title="House Number"
@@ -166,8 +172,8 @@ function RequestForm() {
                   state={houseNumber}
                   setState={sethHouseNumber}
                 />
-                
-              </div>             
+
+              </div>
               {/* Street */}
               <div className="requestForm__content_card__item">
                 <InputText
@@ -177,7 +183,7 @@ function RequestForm() {
                   setState={setStreet}
                 />
               </div>
-              {streetError && <div className="error-message" style={{ color: 'red',fontSize: 12 }}>{streetError}</div>}
+              {streetError && <div className="error-message" style={{ color: 'red', fontSize: 12 }}>{streetError}</div>}
               {/* City */}
               <div className="requestForm__content_card__item">
                 <InputText
@@ -187,7 +193,7 @@ function RequestForm() {
                   setState={setCity}
                 />
               </div>
-              {cityError && <div className="error-message" style={{ color: 'red',fontSize: 12 }}>{cityError}</div>}
+              {cityError && <div className="error-message" style={{ color: 'red', fontSize: 12 }}>{cityError}</div>}
               {/* District */}
               <div className="requestForm__content_card__item">
                 <InputSelect
@@ -195,7 +201,7 @@ function RequestForm() {
                   placeholder="Select Your District"
                   state={district}
                   setState={setDistrict}
-                  required 
+                  required
                 />
               </div>
               {/* Province */}
