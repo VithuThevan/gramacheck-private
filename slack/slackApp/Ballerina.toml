@@ -1,8 +1,8 @@
 [package]
-org = "rishier"
+org = "kathurshana_s"
 name = "slackApp"
 version = "0.1.0"
-distribution = "2201.5.0"
+distribution = "2201.4.1"
 
 [build-options]
 observabilityIncluded = true
