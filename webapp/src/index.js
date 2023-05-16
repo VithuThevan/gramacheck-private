@@ -9,11 +9,11 @@ root.render(
   <React.StrictMode>
     <AuthProvider
       config={{
-        signInRedirectURL: "https://localhost:3000",
-        signOutRedirectURL: "https://localhost:3000",
+        signInRedirectURL: "http://localhost:3000/get-started",
+        signOutRedirectURL: "http://localhost:3000",
         clientID: "wFROSNmxW5BMey8bGfJRzZqFxB8a",
         baseUrl: "https://api.asgardeo.io/t/naveenl",
-        scope: ["openid", "profile"],
+        scope: ["openid", "profile", "phone"],
       }}
     >
       <App />
