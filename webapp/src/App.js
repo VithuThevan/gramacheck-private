@@ -3,12 +3,7 @@ import { useEffect } from "react";
 import "./App.scss";
 
 // Libraries & Packages
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useHistory,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useAuthContext } from "@asgardeo/auth-react";
 
 // Pages
@@ -22,59 +17,72 @@ import StatusRejectedPage from "./pages/StatusRejectedPage/StatusRejectedPage";
 import RequestFormPage from "./pages/RequestFormPage/RequestFormPage";
 
 function App() {
-  const Routing = () => {
-    const { state, signIn, signOut } = useAuthContext();
-    const history = useHistory();
+  // Asgardeo Auth Context
+  const { state, getBasicUserInfo } = useAuthContext();
 
+  const Routing = () => {
+    // useEffect
     useEffect(() => {
       if (state.isAuthenticated) {
-        history.push("/get-started");
+        getBasicUserInfo()
+          .then((basicUserDetails) => {
+            const user = {
+              firstName: basicUserDetails.givenName,
+              lastName: basicUserDetails.familyName,
+              email: basicUserDetails.username,
+            };
+            localStorage.setItem("user", JSON.stringify(user));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       } else {
-        history.push("/");
+        localStorage.removeItem("user");
       }
     }, []);
 
-    console.log(state);
-
-    useEffect(() => {
-      console.log(state);
-    }, [state]);
-
     return (
-      <Switch>
-        {/* StatusRejected */}
-        <Route path="/status-rejected">
-          <StatusRejectedPage />
-        </Route>
-        {/* StatusSuccess */}
-        <Route path="/status-success">
-          <StatusSuccessPage />
-        </Route>
-        {/* StatusPending */}
-        <Route path="/status-pending">
-          <StatusPendingPage />
-        </Route>
-        {/* CheckStatus */}
-        <Route path="/check-status">
-          <CheckStatusPage />
-        </Route>
-        {/* RequestSuccess */}
-        <Route path="/request-success">
-          <RequestSuccessPage />
-        </Route>
-        {/* RequestForm */}
-        <Route path="/request-form">
-          <RequestFormPage />
-        </Route>
-        {/* GetStarted */}
-        <Route path="/get-started">
-          <GetStartedPage />
-        </Route>
-        {/* Landing */}
-        <Route path="/">
-          <LandingPage signIn={signIn} signOut={signOut} />
-        </Route>
-      </Switch>
+      <>
+        {state.isAuthenticated ? (
+          <Switch>
+            {/* StatusRejected */}
+            <Route path="/status-rejected">
+              <StatusRejectedPage />
+            </Route>
+            {/* StatusSuccess */}
+            <Route path="/status-success">
+              <StatusSuccessPage />
+            </Route>
+            {/* StatusPending */}
+            <Route path="/status-pending">
+              <StatusPendingPage />
+            </Route>
+            {/* CheckStatus */}
+            <Route path="/check-status">
+              <CheckStatusPage />
+            </Route>
+            {/* RequestSuccess */}
+            <Route path="/request-success">
+              <RequestSuccessPage />
+            </Route>
+            {/* RequestForm */}
+            <Route path="/request-form">
+              <RequestFormPage />
+            </Route>
+            {/* GetStarted */}
+            <Route path="/get-started">
+              <GetStartedPage />
+            </Route>
+          </Switch>
+        ) : (
+          <Switch>
+            {/* Landing */}
+            <Route path="/">
+              <LandingPage />
+            </Route>
+          </Switch>
+        )}
+      </>
     );
   };
 

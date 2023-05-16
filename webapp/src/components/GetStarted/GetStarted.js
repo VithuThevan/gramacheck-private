@@ -32,7 +32,7 @@ function GetStarted() {
             </p>
           </div>
           <div className="getStarted__content__buttons">
-            <Link to="/">
+            <Link to="/request-form">
               <Button>GET STARTED</Button>
             </Link>
           </div>

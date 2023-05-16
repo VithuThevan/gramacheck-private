@@ -40,7 +40,10 @@ function Button({ variant, children, onClick }) {
   }, [variant]);
 
   return (
-    <button className={setClassName()} onClick={() => onClick()}>
+    <button
+      className={setClassName()}
+      onClick={onClick != null ? () => onClick() : null}
+    >
       {children}
     </button>
   );
