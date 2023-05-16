@@ -40,7 +40,7 @@ function App() {
         // history.push("/get-started");
         // dispatch({ type: "USER", payload: user });
       } else {
-        history.push("/");
+        // history.push("/");
       }
     }, []);
 
