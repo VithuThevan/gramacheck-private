@@ -61,6 +61,47 @@ function RequestForm() {
     return () => selectProvince();
   }, [district]);
 
+  // Choreo base endpoint
+  const API_HOST =
+    "https://f82fbb50-01e1-4078-a9f8-0d4ed79a518a-dev.e1-us-east-azure.choreoapis.dev/sbmq/grama-check/requestservice-369/1.0.0";
+
+  // Asgardeo access token
+  const TOKEN = JSON.parse(
+    sessionStorage.getItem("session_data-instance_0")
+  ).access_token;
+
+  // Fucnctions
+  const submitRequest = () => {
+    const requestDetails = {
+      nic_number: NIC,
+      house_no: houseNumber,
+      street: street,
+      city: city,
+      district: district,
+      province: province,
+    };
+
+    var url = API_HOST + "/request";
+
+    var requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + TOKEN,
+      },
+      body: JSON.stringify(requestDetails),
+      redirect: "follow",
+    };
+
+    fetch(url, requestOptions)
+      .then((response) => {
+        if (response.ok) {
+          window.location.href = "/request-success";
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div className="requestForm">
       <div className="requestForm__container">
@@ -135,7 +176,9 @@ function RequestForm() {
               </div>
               {/* Button */}
               <div className="requestForm__content_card__button">
-                <Button variant="primary">SUBMIT</Button>
+                <Button variant="primary" onClick={submitRequest}>
+                  SUBMIT
+                </Button>
               </div>
             </div>
           </div>
