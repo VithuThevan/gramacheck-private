@@ -28,7 +28,7 @@
       }
     }
     .navbar__username {
-      width: calc(100% - 450px);
+      width: calc(100% - 340px);
       height: 100%;
       //   background-color: lightpink;
 
@@ -58,9 +58,88 @@
 
         object-fit: cover;
         object-position: center;
+
+        cursor: pointer;
+      }
+
+      position: relative;
+
+      .navbar__menu {
+        width: 200px;
+        height: 80px;
+        // background-color: lightgreen;
+
+        @include flexbox;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        position: absolute;
+        top: 80px;
+        right: 0px;
+
+        background-color: $white;
+
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px 0px rgba(69, 69, 86, 0.3);
+
+        .navbar__menu__item__signout {
+          width: 100%;
+          height: 40px;
+          // background-color: lightgreen;
+
+          @include flexbox;
+          justify-content: flex-start;
+          padding: 10px;
+          transition: background-color 0.25s ease-in-out;
+
+          cursor: pointer;
+
+          &:hover {
+            background-color: rgba($color: $grey-regular, $alpha: 0.1);
+          }
+
+          :first-child {
+            margin-right: 10px;
+            color: $grey-regular;
+          }
+
+          p {
+            color: $grey-regular;
+          }
+        }
+        .navbar__menu__item__help {
+          width: 100%;
+          height: 40px;
+          // background-color: lightgreen;
+
+          @include flexbox;
+          justify-content: flex-start;
+          padding: 10px;
+          transition: background-color 0.25s ease-in-out;
+
+          cursor: pointer;
+
+          &:hover {
+            background-color: rgba($color: $grey-regular, $alpha: 0.1);
+          }
+
+          :first-child {
+            @include flexbox;
+            :first-child {
+              margin-right: 10px;
+              color: $grey-regular;
+            }
+
+            p {
+              color: $grey-regular;
+            }
+          }
+        }
       }
     }
+
     .navbar__signout {
+      display: none;
       width: 160px;
       height: 100%;
       //   background-color: lightpink;
@@ -77,7 +156,7 @@
   .navbar {
     .navbar__container {
       .navbar__logo {
-        width: calc(100% - 210px);
+        width: calc(100% - 50px);
       }
       .navbar__username {
         display: none;
@@ -86,7 +165,7 @@
         width: 50px;
       }
       .navbar__signout {
-        width: 160px;
+        // width: 160px;
       }
     }
   }

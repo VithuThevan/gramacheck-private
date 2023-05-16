@@ -4,10 +4,10 @@ import React from "react";
 // Components
 import Landing from "../../components/Landing/Landing";
 
-function LandingPage({ signIn, signOut }) {
+function LandingPage() {
   return (
     <>
-      <Landing signIn={signIn} signOut={signOut} />
+      <Landing />
     </>
   );
 }

@@ -33,7 +33,7 @@ function Landing() {
             </div>
             <div className="landing__body__buttons">
               <Button variant="primary" onClick={() => signIn()}>
-                LOGIN
+                SIGNUP / LOGIN
               </Button>
             </div>
           </div>
