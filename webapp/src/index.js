@@ -3,18 +3,22 @@ import ReactDOM from "react-dom/client";
 import "./index.scss";
 import App from "./App";
 import { AuthProvider } from "@asgardeo/auth-react";
-
+import { BASE_URL, CLIENT_ID, CLIENT_SECRET, SIGNIN_REDIRECT_URL, SIGNOUT_REDIRECT_URL } from './env';
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const config = {
+  signInRedirectURL: SIGNIN_REDIRECT_URL,
+  signOutRedirectURL: SIGNOUT_REDIRECT_URL,
+  clientID: CLIENT_ID,
+  clientSecret: CLIENT_SECRET,
+  baseUrl: BASE_URL,
+  scope: ["openid", "profile", "groups", "phone"],
+}
+
 root.render(
   <React.StrictMode>
     <AuthProvider
-      config={{
-        signInRedirectURL: "https://localhost:3000",
-        signOutRedirectURL: "https://localhost:3000",
-        clientID: "wFROSNmxW5BMey8bGfJRzZqFxB8a",
-        baseUrl: "https://api.asgardeo.io/t/naveenl",
-        scope: ["openid", "profile"],
-      }}
+      config={config}
     >
       <App />
     </AuthProvider>
