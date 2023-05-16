@@ -74,8 +74,18 @@ function RequestForm() {
     return () => selectProvince();
   }, [district]);
 
-  // method to post the request details
+  // Choreo base endpoint
+  const API_HOST =
+    "https://f82fbb50-01e1-4078-a9f8-0d4ed79a518a-dev.e1-us-east-azure.choreoapis.dev/sbmq/grama-check/requestservice-369/1.0.0";
+
+  // Asgardeo access token
+  const TOKEN = JSON.parse(
+    sessionStorage.getItem("session_data-instance_0")
+  ).access_token;
+
+  // Fucnctions
   const submitRequest = () => {
+
       let isValid = true;
 
       // Validate NIC
@@ -111,14 +121,14 @@ function RequestForm() {
     var url = API_HOST + "/request";
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + TOKEN
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + TOKEN,
       },
       body: JSON.stringify(requestDetails),
-      redirect: 'follow'
-    }
+      redirect: "follow",
+    };
 
     fetch(url, requestOptions).then(response => {
       if (response.ok) {
@@ -126,7 +136,7 @@ function RequestForm() {
         window.location.href = "/request-success";
     } }).catch(error => console.log(error))
   }
-  }
+  };
 
   return (
     <div className="requestForm">
@@ -209,7 +219,9 @@ function RequestForm() {
               </div>
               {/* Button */}
               <div className="requestForm__content_card__button">
-                <Button variant="primary" onClick={submitRequest}>SUBMIT</Button>
+                <Button variant="primary" onClick={submitRequest}>
+                  SUBMIT
+                </Button>
               </div>
             </div>
           </div>
