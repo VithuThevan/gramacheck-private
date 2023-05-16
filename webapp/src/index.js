@@ -10,7 +10,7 @@ import {
   SIGNOUT_REDIRECT_URL,
 } from "./env.js";
 import { AuthProvider } from "@asgardeo/auth-react";
-import { BASE_URL, CLIENT_ID, CLIENT_SECRET, SIGNIN_REDIRECT_URL, SIGNOUT_REDIRECT_URL } from './env';
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const config = {

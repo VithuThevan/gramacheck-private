@@ -21,12 +21,6 @@ function RequestForm() {
   const [district, setDistrict] = useState("");
   const [province, setProvince] = useState("");
 
-  // Choreo base endpoint
-  const API_HOST = "https://f82fbb50-01e1-4078-a9f8-0d4ed79a518a-dev.e1-us-east-azure.choreoapis.dev/sbmq/grama-check/requestservice-369/1.0.0";
-
-  // Asgardeo access token
-  const TOKEN = JSON.parse(sessionStorage.getItem("session_data-instance_0")).access_token;
-
   // useEffect
   useEffect(() => {
     const selectProvince = () => {
