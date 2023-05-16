@@ -25,13 +25,12 @@ function RequestForm() {
   const [houseNumberError, setHouseNumberError] = useState("");
   const [streetError, setStreetError] = useState("");
   const [cityError, setCityError] = useState("");
-
-
   // Choreo base endpoint
   const API_HOST = "https://f82fbb50-01e1-4078-a9f8-0d4ed79a518a-dev.e1-us-east-azure.choreoapis.dev/sbmq/grama-check/requestservice-369/1.0.0";
 
   // Asgardeo access token
   const TOKEN = JSON.parse(sessionStorage.getItem("session_data-instance_0")).access_token;
+
   const validateNIC = (nic) => {
     const regex = /^(\d{9}[vx])|(\d{12})$/; // Regular expression to validate the NIC format
     return regex.test(nic);
@@ -116,7 +115,7 @@ function RequestForm() {
         setCityError("");
       }
       if (isValid){
-        const requestDetails = { nic_number: NIC, house_no: houseNumber, street: street, city: city, district: district, province: province };
+    const requestDetails = { nic_number: NIC, house_no: houseNumber, street: street, city: city, district: district, province: province };
 
     var url = API_HOST + "/request";
 
@@ -136,6 +135,9 @@ function RequestForm() {
         window.location.href = "/request-success";
     } }).catch(error => console.log(error))
   }
+  }
+     window.location.href = "/request-success";
+    } }).catch(error => console.log(error))
   }
 
   return (
