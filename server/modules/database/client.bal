@@ -25,4 +25,5 @@ final mysql:Options mysqlOptions = {
 };
 
 final mysql:Client databaseClient = check new (host = databaseConfig.dbHost, user = databaseConfig.dbUser, password = databaseConfig.dbPassword,
-connectionPool = connPool, port = databaseConfig.dbPort, database = databaseConfig.dbName, options = mysqlOptions);
+    connectionPool = connPool, port = databaseConfig.dbPort, database = databaseConfig.dbName, options = mysqlOptions
+);

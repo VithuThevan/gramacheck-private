@@ -107,3 +107,4 @@ public isolated function getPoliceStatus(string nicNumber) returns types:PoliceC
     }
     return 1;
 }
+

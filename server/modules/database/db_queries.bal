@@ -45,7 +45,9 @@ isolated function getRequestQuery(int requestId) returns sql:ParameterizedQuery 
     `;
 }
 
-isolated function getAllRequestQuery() returns sql:ParameterizedQuery {
+
+isolated function getAllRequestQuery()returns sql:ParameterizedQuery {
+
     io:println("getAllRequestQuery");
     return `
     SELECT 
@@ -108,3 +110,4 @@ isolated function PoliceCheckQuery(string nicNumber) returns sql:ParameterizedQu
         nic = ${nicNumber}
     `;
 }
+

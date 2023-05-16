@@ -5,33 +5,12 @@
 
 [ballerina]
 dependencies-toml-version = "2"
-
-[[package]]
-org = "Gayathrilocal"
-name = "gramaCheck"
-version = "0.1.0"
-dependencies = [
-	{org = "ballerina", name = "http"},
-	{org = "ballerina", name = "io"},
-	{org = "ballerina", name = "sql"},
-	{org = "ballerina", name = "test"},
-	{org = "ballerinai", name = "observe"},
-	{org = "ballerinax", name = "mysql"},
-	{org = "ballerinax", name = "mysql.driver"},
-	{org = "ballerinax", name = "slack"}
-]
-modules = [
-	{org = "Gayathrilocal", packageName = "gramaCheck", moduleName = "gramaCheck"},
-	{org = "Gayathrilocal", packageName = "gramaCheck", moduleName = "gramaCheck.constants"},
-	{org = "Gayathrilocal", packageName = "gramaCheck", moduleName = "gramaCheck.database"},
-	{org = "Gayathrilocal", packageName = "gramaCheck", moduleName = "gramaCheck.types"},
-	{org = "Gayathrilocal", packageName = "gramaCheck", moduleName = "gramaCheck.util"}
-]
+distribution-version = "2201.5.0"
 
 [[package]]
 org = "ballerina"
 name = "auth"
-version = "2.5.0"
+version = "2.7.0"
 dependencies = [
 	{org = "ballerina", name = "crypto"},
 	{org = "ballerina", name = "jballerina.java"},
@@ -44,7 +23,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "cache"
-version = "3.3.0"
+version = "3.4.0"
 dependencies = [
 	{org = "ballerina", name = "constraint"},
 	{org = "ballerina", name = "jballerina.java"},
@@ -55,7 +34,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "constraint"
-version = "1.0.2"
+version = "1.1.0"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -72,7 +51,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "file"
-version = "1.5.0"
+version = "1.7.0"
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
@@ -85,7 +64,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "http"
-version = "2.5.3"
+version = "2.7.0"
 dependencies = [
 	{org = "ballerina", name = "auth"},
 	{org = "ballerina", name = "cache"},
@@ -116,7 +95,7 @@ modules = [
 [[package]]
 org = "ballerina"
 name = "io"
-version = "1.3.1"
+version = "1.4.0"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "lang.value"}
@@ -133,7 +112,7 @@ version = "0.0.0"
 [[package]]
 org = "ballerina"
 name = "jwt"
-version = "2.5.0"
+version = "2.7.0"
 dependencies = [
 	{org = "ballerina", name = "cache"},
 	{org = "ballerina", name = "crypto"},
@@ -176,7 +155,9 @@ org = "ballerina"
 name = "lang.int"
 version = "0.0.0"
 dependencies = [
-	{org = "ballerina", name = "jballerina.java"}
+	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "lang.__internal"},
+	{org = "ballerina", name = "lang.object"}
 ]
 
 [[package]]
@@ -220,7 +201,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "log"
-version = "2.5.1"
+version = "2.7.0"
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
@@ -231,7 +212,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "mime"
-version = "2.5.1"
+version = "2.7.0"
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
@@ -241,13 +222,14 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "oauth2"
-version = "2.5.0"
+version = "2.7.0"
 dependencies = [
 	{org = "ballerina", name = "cache"},
 	{org = "ballerina", name = "crypto"},
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "log"},
-	{org = "ballerina", name = "time"}
+	{org = "ballerina", name = "time"},
+	{org = "ballerina", name = "url"}
 ]
 
 [[package]]
@@ -261,7 +243,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "os"
-version = "1.5.0"
+version = "1.6.0"
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"}
@@ -270,24 +252,10 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "regex"
-version = "1.3.2"
+version = "1.4.2"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "lang.string"}
-]
-
-[[package]]
-org = "ballerina"
-name = "sql"
-version = "1.6.3"
-dependencies = [
-	{org = "ballerina", name = "io"},
-	{org = "ballerina", name = "jballerina.java"},
-	{org = "ballerina", name = "lang.object"},
-	{org = "ballerina", name = "time"}
-]
-modules = [
-	{org = "ballerina", packageName = "sql", moduleName = "sql"}
 ]
 
 [[package]]
@@ -350,23 +318,34 @@ dependencies = [
 
 [[package]]
 org = "ballerinax"
-name = "mysql"
-version = "1.6.2"
+name = "slack"
+version = "3.3.0"
 dependencies = [
-	{org = "ballerina", name = "crypto"},
-	{org = "ballerina", name = "io"},
-	{org = "ballerina", name = "jballerina.java"},
-	{org = "ballerina", name = "sql"},
-	{org = "ballerina", name = "time"}
+	{org = "ballerina", name = "http"},
+	{org = "ballerina", name = "lang.runtime"},
+	{org = "ballerina", name = "log"},
+	{org = "ballerina", name = "mime"},
+	{org = "ballerina", name = "os"},
+	{org = "ballerina", name = "regex"},
+	{org = "ballerina", name = "url"},
+	{org = "ballerinax", name = "client.config"}
 ]
 modules = [
-	{org = "ballerinax", packageName = "mysql", moduleName = "mysql"}
+	{org = "ballerinax", packageName = "slack", moduleName = "slack"}
 ]
 
 [[package]]
-org = "ballerinax"
-name = "mysql.driver"
-version = "1.4.1"
-modules = [
-	{org = "ballerinax", packageName = "mysql.driver", moduleName = "mysql.driver"}
+org = "rishier"
+name = "slackApp"
+version = "0.1.0"
+dependencies = [
+	{org = "ballerina", name = "http"},
+	{org = "ballerina", name = "io"},
+	{org = "ballerina", name = "test"},
+	{org = "ballerinai", name = "observe"},
+	{org = "ballerinax", name = "slack"}
 ]
+modules = [
+	{org = "rishier", packageName = "slackApp", moduleName = "slackApp"}
+]
+
