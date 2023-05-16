@@ -9,7 +9,12 @@ import LandingSVG from "../../assets/images/svg/landing.svg";
 // Components
 import Button from "../../ui-library/Button/Button";
 
-function Landing({ signIn, signOut }) {
+// Libraries & Packages
+import { useAuthContext } from "@asgardeo/auth-react";
+
+function Landing() {
+  const { signIn } = useAuthContext();
+
   return (
     <div className="landing">
       <div className="landing__logo">
@@ -27,10 +32,7 @@ function Landing({ signIn, signOut }) {
               <p>Your Local Digital Certificate</p>
             </div>
             <div className="landing__body__buttons">
-              <Button variant="primary" onClick={() => signOut()}>
-                SIGNOUT
-              </Button>
-              <Button variant="secondary" onClick={() => signIn()}>
+              <Button variant="primary" onClick={() => signIn()}>
                 LOGIN
               </Button>
             </div>

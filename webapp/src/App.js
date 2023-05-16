@@ -22,23 +22,76 @@ import StatusRejectedPage from "./pages/StatusRejectedPage/StatusRejectedPage";
 import RequestFormPage from "./pages/RequestFormPage/RequestFormPage";
 
 function App() {
-  const Routing = () => {
-    const { state, signIn, signOut } = useAuthContext();
-    const history = useHistory();
+  const {
+    state,
+    signIn,
+    signOut,
+    getAccessToken,
+    getBasicUserInfo,
+    getDecodedIDToken,
+  } = useAuthContext();
 
+  const Routing = () => {
+    const history = useHistory();
     useEffect(() => {
-      if (state.isAuthenticated) {
-        history.push("/get-started");
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (user) {
+        // history.push("/get-started");
+        // dispatch({ type: "USER", payload: user });
       } else {
         history.push("/");
       }
     }, []);
 
-    console.log(state);
-
     useEffect(() => {
-      console.log(state);
-    }, [state]);
+      getAccessToken()
+        .then((accessToken) => {
+          // console.log(accessToken);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      getBasicUserInfo()
+        .then((basicUserDetails) => {
+          console.log(basicUserDetails.displayName);
+        })
+        .catch((error) => {
+          // Handle the error
+        });
+
+      getDecodedIDToken()
+        .then((decodedIDToken) => {
+          // console.log(decodedIDToken);
+        })
+        .catch((error) => {
+          // Handle the error
+        });
+    }, []);
+
+    // useEffect
+    useEffect(() => {
+      if (state.isAuthenticated) {
+        getBasicUserInfo()
+          .then((basicUserDetails) => {
+            console.log(basicUserDetails);
+            const user = {
+              firstName: basicUserDetails.givenName,
+              lastName: basicUserDetails.familyName,
+              email: basicUserDetails.username,
+            };
+
+            localStorage.setItem("user", JSON.stringify(user));
+            // console.log(basicUserDetails);
+          })
+          .catch((error) => {
+            // Handle the error
+          });
+      } else {
+        localStorage.removeItem("user");
+      }
+    }, [state.isAuthenticated]);
 
     return (
       <Switch>
