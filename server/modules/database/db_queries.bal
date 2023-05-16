@@ -19,7 +19,8 @@ isolated function addRequestQuery(types:Request request) returns sql:Parameteriz
             street,
             city,
             district,
-            province
+            province,
+            email
          )
     VALUES (
            ${request.nic_number},
@@ -27,14 +28,28 @@ isolated function addRequestQuery(types:Request request) returns sql:Parameteriz
             ${request.street},
             ${request.city},
             ${request.district},
-            ${request.province}
+            ${request.province},
+            ${request.email}
            
             )
     `;
 }
 
-isolated function getRequestQuery(int requestId) returns sql:ParameterizedQuery {
+isolated function getRequestQuery(string email) returns sql:ParameterizedQuery {
     io:println("getStatus");
+    return `
+    SELECT 
+       *
+    FROM 
+        request
+    WHERE 
+        email = ${email}
+       
+    `;
+}
+
+isolated function getRequestByIdQuery(int requestId) returns sql:ParameterizedQuery {
+    io:println("getRequestByIdQuery");
     return `
     SELECT 
        *
@@ -44,7 +59,6 @@ isolated function getRequestQuery(int requestId) returns sql:ParameterizedQuery 
         request_id = ${requestId}
     `;
 }
-
 
 isolated function getAllRequestQuery()returns sql:ParameterizedQuery {
 

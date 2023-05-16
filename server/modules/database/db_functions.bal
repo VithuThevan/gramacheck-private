@@ -15,8 +15,8 @@ public isolated function addRequest(types:Request request) returns types:Executi
     return result.cloneWithType(types:ExecutionSuccessResult);
 }
 
-public isolated function getRequest(int requestId) returns types:Request|error {
-    stream<types:Request, sql:Error?> requestResultStream = databaseClient->query(getRequestQuery(requestId));
+public isolated function getRequestById(int requestId) returns types:Request|error {
+    stream<types:Request, sql:Error?> requestResultStream = databaseClient->query(getRequestByIdQuery(requestId));
     types:Request[] Result = check from var result in requestResultStream
         select result;
 
@@ -25,6 +25,19 @@ public isolated function getRequest(int requestId) returns types:Request|error {
     }
     return Result[0];
 }
+
+public isolated function getRequest(string email) returns types:Request|error {
+    stream<types:Request, sql:Error?> requestResultStream = databaseClient->query(getRequestQuery(email));
+    types:Request[] Result = check from var result in requestResultStream
+        select result;
+
+    if Result.length() == 0 {
+        return error("Request not found");
+    }
+    return Result[0];
+}
+
+
 
 public isolated function getAllRequests() returns types:Request[]|error {
     stream<types:Request, sql:Error?> requestResultStream = databaseClient->query(getAllRequestQuery());
@@ -38,6 +51,7 @@ public isolated function getAllRequests() returns types:Request[]|error {
     check requestResultStream.close();
     return Result;
 }
+
 
 public isolated function updateRequest(types:requestStatus request) returns types:ExecutionSuccessResult|error {
     sql:ExecutionResult result = check databaseClient->execute(updateRequestQuery(request));
@@ -56,7 +70,7 @@ public isolated function getIdentity(string nicNumber) returns boolean|error {
 }
 
 public isolated function getAddress(int requestId) returns boolean|error {
-    stream<types:Request, sql:Error?> requestResultStream = databaseClient->query(getRequestQuery(requestId));
+    stream<types:Request, sql:Error?> requestResultStream = databaseClient->query(getRequestByIdQuery(requestId));
     types:Request[] RequestResult = check from var result in requestResultStream
         select result;
 
