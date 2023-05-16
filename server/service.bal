@@ -73,7 +73,7 @@ service /requestService on new http:Listener(9091) {
     }
 
     isolated resource function patch request/[int requestId](@http:Payload types:requestStatus request)
-    returns boolean|types:AppServerError{
+    returns boolean|types:AppServerError {
         types:ExecutionSuccessResult|error result = database:updateRequest(request);
         if result is error {
             return <types:AppServerError>{
@@ -85,7 +85,7 @@ service /requestService on new http:Listener(9091) {
         return true;
     }
 
- isolated resource function get policestatus/[string nicNumber]()
+    isolated resource function get policestatus/[string nicNumber]()
         returns types:PoliceCheck|types:AppServerError|types:AppNotFoundError|int {
         types:PoliceCheck|error?|int result = database:getPoliceStatus(nicNumber);
         if result is () {
@@ -104,8 +104,8 @@ service /requestService on new http:Listener(9091) {
         }
         return result;
     }
-     isolated resource function get identity/[string nicNumber]()
-        returns boolean|types:AppServerError{
+    isolated resource function get identity/[string nicNumber]()
+        returns boolean|types:AppServerError {
         boolean|error result = database:getIdentity(nicNumber);
         if result is error {
             return <types:AppServerError>{
@@ -117,7 +117,7 @@ service /requestService on new http:Listener(9091) {
         return result;
     }
 
-       isolated resource function get address/[int requestId]()
+    isolated resource function get address/[int requestId]()
         returns boolean|types:AppServerError {
         boolean|error result = database:getAddress(requestId);
         if result is error {

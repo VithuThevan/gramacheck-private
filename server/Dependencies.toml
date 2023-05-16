@@ -253,7 +253,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "observe"
-version = "1.0.6"
+version = "1.0.7"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -370,25 +370,3 @@ version = "1.4.1"
 modules = [
 	{org = "ballerinax", packageName = "mysql.driver", moduleName = "mysql.driver"}
 ]
-
-<<<<<<< HEAD
-[[package]]
-org = "ballerinax"
-name = "slack"
-version = "3.3.0"
-dependencies = [
-	{org = "ballerina", name = "http"},
-	{org = "ballerina", name = "lang.runtime"},
-	{org = "ballerina", name = "log"},
-	{org = "ballerina", name = "mime"},
-	{org = "ballerina", name = "os"},
-	{org = "ballerina", name = "regex"},
-	{org = "ballerina", name = "url"},
-	{org = "ballerinax", name = "client.config"}
-]
-modules = [
-	{org = "ballerinax", packageName = "slack", moduleName = "slack"}
-]
-=======
->>>>>>> 7394b731a6e3de4cb3a200c3d18f96d325ec1d63
-
