@@ -21,6 +21,44 @@ function App() {
   const { state, getBasicUserInfo } = useAuthContext();
 
   const Routing = () => {
+    const history = useHistory();
+    useEffect(() => {
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (user) {
+        // history.push("/get-started");
+        // dispatch({ type: "USER", payload: user });
+      } else {
+        // history.push("/");
+      }
+    }, []);
+
+    useEffect(() => {
+      getAccessToken()
+        .then((accessToken) => {
+          // console.log(accessToken);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      getBasicUserInfo()
+        .then((basicUserDetails) => {
+          console.log(basicUserDetails.displayName);
+        })
+        .catch((error) => {
+          // Handle the error
+        });
+
+      getDecodedIDToken()
+        .then((decodedIDToken) => {
+          // console.log(decodedIDToken);
+        })
+        .catch((error) => {
+          // Handle the error
+        });
+    }, []);
+
     // useEffect
     useEffect(() => {
       if (state.isAuthenticated) {

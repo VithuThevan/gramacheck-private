@@ -14,20 +14,21 @@ public type Request record {
     string city;
     string district;
     string province;
-    string status="pending";
+    string status = "pending";
     string reason?;
 };
 
-public type Identity record{
+public type Identity record {
     string nic_number;
 };
 
-public type requestStatus record{
+public type requestStatus record {
     int requestId;
     string status;
     string reason?;
-    };
-public type PoliceCheck record{
+};
+
+public type PoliceCheck record {
     int status;
 };
 

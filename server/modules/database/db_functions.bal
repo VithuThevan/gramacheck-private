@@ -25,11 +25,11 @@ public isolated function getRequest(int requestId) returns types:Request|error {
     }
     return Result[0];
 }
+
 public isolated function getAllRequests() returns types:Request[]|error {
-   stream<types:Request, sql:Error?> requestResultStream = databaseClient->query(getAllRequestQuery());
+    stream<types:Request, sql:Error?> requestResultStream = databaseClient->query(getAllRequestQuery());
     types:Request[] Result = check from var result in requestResultStream
         select result;
-      
 
     if Result.length() == 0 {
         return error("Request not found");
@@ -40,7 +40,7 @@ public isolated function getAllRequests() returns types:Request[]|error {
 }
 
 public isolated function updateRequest(types:requestStatus request) returns types:ExecutionSuccessResult|error {
-    sql:ExecutionResult result = check databaseClient->execute( updateRequestQuery(request));
+    sql:ExecutionResult result = check databaseClient->execute(updateRequestQuery(request));
     return result.cloneWithType(types:ExecutionSuccessResult);
 }
 
@@ -70,8 +70,8 @@ public isolated function getAddress(int requestId) returns boolean|error {
                 if (RequestResult[0].district.equalsIgnoreCaseAscii(AddressResult[0].district)) {
                     if (RequestResult[0].city.equalsIgnoreCaseAscii(AddressResult[0].city)) {
                         if (RequestResult[0].street.equalsIgnoreCaseAscii(AddressResult[0].street)) {
-                                io:println("Address is equal");
-                        
+                            io:println("Address is equal");
+
                         } else {
                             return error("Address does not match");
                         }
@@ -107,3 +107,4 @@ public isolated function getPoliceStatus(string nicNumber) returns types:PoliceC
     }
     return 1;
 }
+
