@@ -26,10 +26,11 @@ function App() {
       if (state.isAuthenticated) {
         getBasicUserInfo()
           .then((basicUserDetails) => {
+            console.log(basicUserDetails);
             const user = {
               firstName: basicUserDetails.givenName,
               lastName: basicUserDetails.familyName,
-              email: basicUserDetails.username,
+              email: basicUserDetails.email,
             };
             localStorage.setItem("user", JSON.stringify(user));
           })

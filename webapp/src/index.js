@@ -19,7 +19,7 @@ const config = {
   clientID: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
   baseUrl: BASE_URL,
-  scope: ["openid", "profile", "groups", "phone"],
+  scope: ["openid", "profile", "groups", "phone", "email"],
 };
 
 root.render(
