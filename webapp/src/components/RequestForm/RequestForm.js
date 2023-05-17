@@ -11,7 +11,6 @@ import Navbar from "../Navbar/Navbar";
 // Libraries & Packages
 import InputText from "../../ui-library/InputText/InputText";
 import InputSelect from "../../ui-library/InputSelect/InputSelect";
-import { useAuthContext } from "@asgardeo/auth-react";
 
 function RequestForm() {
   // State
@@ -25,8 +24,6 @@ function RequestForm() {
   const [streetError, setStreetError] = useState("");
   const [cityError, setCityError] = useState("");
 
-  const { state } = useAuthContext();
-
   // Choreo base endpoint
   const API_HOST =
     "https://f82fbb50-01e1-4078-a9f8-0d4ed79a518a-dev.e1-us-east-azure.choreoapis.dev/sbmq/grama-check/requestservice-369/1.0.0";
@@ -35,6 +32,9 @@ function RequestForm() {
   const TOKEN = JSON.parse(
     sessionStorage.getItem("session_data-instance_0")
   ).access_token;
+
+  // Get the user email
+  const EMAIL = JSON.parse(localStorage.getItem("user")).email;
 
   const validateNIC = (nic) => {
     const regex = /^(\d{9}[vVx])|(\d{12})$/; // Regular expression to validate the NIC format
@@ -120,7 +120,7 @@ function RequestForm() {
         city: city,
         district: district,
         province: province,
-        email: state.username,
+        email: EMAIL
       };
 
       var url = API_HOST + "/request";
