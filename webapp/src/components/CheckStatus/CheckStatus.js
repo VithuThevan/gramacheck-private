@@ -24,10 +24,10 @@ function CheckStatus() {
 
   const statuscheck = () => {
     console.log("Check Status");
-  const email = JSON.parse(localStorage.getItem("user")).email;
+    const email = JSON.parse(localStorage.getItem("user")).email;
     //const requestId = sessionStorage.getItem("requestId");
-    const url = API_HOST+"/request/"+ email;
-  
+    const url = API_HOST + "/request/" + email;
+
     const requestOptions = {
       method: "GET",
       headers: {
@@ -36,31 +36,31 @@ function CheckStatus() {
       },
       redirect: "follow",
     };
-  
+
     fetch(url, requestOptions)
       .then(response => response.json())
       .then(data => {
         // Handle the response data here
-        console.log(data); 
-        const requestId= {
+        console.log(data);
+        const requestId = {
           requestId: data.request_id,
         };
         localStorage.setItem("requestId", JSON.stringify(requestId));
-      // This will log the response data to the console.
-      console.log(data.request_id);
-              // Redirect to the appropriate page based on the request status
-              if (data.status === "success") {
-                console.log(data.requestId);
-                window.location.href = "/status-success";
-              } else if (data.status === "pending") {
-                window.location.href = "/status-pending";
-              }else if (data.status === "rejected") {
-                window.location.href = "/status-rejected";
-              } 
-            })
+        // This will log the response data to the console.
+        console.log(data.request_id);
+        // Redirect to the appropriate page based on the request status
+        if (data.status === "success") {
+          console.log(data.requestId);
+          window.location.href = "/status-success";
+        } else if (data.status === "pending") {
+          window.location.href = "/status-pending";
+        } else if (data.status === "rejected") {
+          window.location.href = "/status-rejected?reason=" + data.reason;
+        }
+      })
       .catch(error => console.log(error));
   };
-  
+
   return (
     <div className="checkStatus">
       <div className="checkStatus__container">
@@ -81,7 +81,7 @@ function CheckStatus() {
             </p>
           </div>
           <div className="checkStatus__content__buttons">
-              <Button onClick={statuscheck}>Check Status</Button>
+            <Button onClick={statuscheck}>CHECK STATUS</Button>
           </div>
         </div>
       </div>
