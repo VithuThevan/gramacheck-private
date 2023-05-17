@@ -121,7 +121,7 @@ function RequestForm() {
         city: city.toLowerCase(),
         district: district.toLowerCase(),
         province: province.toLowerCase(),
-        email: state.username.toLowerCase(),
+        email: EMAIL.toLowerCase(),
       };
 
       var url = API_HOST + "/request";
