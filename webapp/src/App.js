@@ -1,5 +1,4 @@
 /* ----- App.js ----- */
-import { useEffect } from "react";
 import "./App.scss";
 
 // Libraries & Packages
@@ -18,31 +17,9 @@ import RequestFormPage from "./pages/RequestFormPage/RequestFormPage";
 
 function App() {
   // Asgardeo Auth Context
-  const { state, getBasicUserInfo } = useAuthContext();
+  const { state } = useAuthContext();
 
   const Routing = () => {
-    // useEffect
-    useEffect(() => {
-      if (state.isAuthenticated) {
-        getBasicUserInfo()
-          .then((basicUserDetails) => {
-            console.log(basicUserDetails);
-            const user = {
-              firstName: basicUserDetails.givenName,
-              lastName: basicUserDetails.familyName,
-              email: basicUserDetails.email,
-            };
-            localStorage.setItem("user", JSON.stringify(user));
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } else {
-        localStorage.removeItem("user");
-        localStorage.removeItem("requestId");
-      }
-    }, []);
-
     return (
       <>
         {state.isAuthenticated ? (
