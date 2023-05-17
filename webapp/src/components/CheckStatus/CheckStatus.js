@@ -10,9 +10,57 @@ import Button from "../../ui-library/Button/Button";
 import Navbar from "../Navbar/Navbar";
 
 // Libraries & Packages
-import { Link } from "react-router-dom";
 
 function CheckStatus() {
+  // Choreo base endpoint
+  const API_HOST =
+    "https://f82fbb50-01e1-4078-a9f8-0d4ed79a518a-dev.e1-us-east-azure.choreoapis.dev/sbmq/grama-check/requestservice-369/1.0.0";
+
+  // Asgardeo access token
+  const TOKEN = JSON.parse(
+    sessionStorage.getItem("session_data-instance_0")
+  ).access_token;
+
+
+  const statuscheck = () => {
+    console.log("Check Status");
+  const email = JSON.parse(localStorage.getItem("user")).email;
+    //const requestId = sessionStorage.getItem("requestId");
+    const url = API_HOST+"/request/"+ email;
+  
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + TOKEN,
+      },
+      redirect: "follow",
+    };
+  
+    fetch(url, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response data here
+        console.log(data); 
+        const requestId= {
+          requestId: data.request_id,
+        };
+        localStorage.setItem("requestId", JSON.stringify(requestId));
+      // This will log the response data to the console.
+      console.log(data.request_id);
+              // Redirect to the appropriate page based on the request status
+              if (data.status === "success") {
+                console.log(data.requestId);
+                window.location.href = "/status-success";
+              } else if (data.status === "pending") {
+                window.location.href = "/status-pending";
+              }else if (data.status === "rejected") {
+                window.location.href = "/status-rejected";
+              } 
+            })
+      .catch(error => console.log(error));
+  };
+  
   return (
     <div className="checkStatus">
       <div className="checkStatus__container">
@@ -33,9 +81,7 @@ function CheckStatus() {
             </p>
           </div>
           <div className="checkStatus__content__buttons">
-            <Link to="/">
-              <Button>Check Status</Button>
-            </Link>
+              <Button onClick={statuscheck}>Check Status</Button>
           </div>
         </div>
       </div>

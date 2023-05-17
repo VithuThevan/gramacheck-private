@@ -37,7 +37,7 @@ function RequestForm() {
   const EMAIL = JSON.parse(localStorage.getItem("user")).email;
 
   const validateNIC = (nic) => {
-    const regex = /^(\d{9}[vVx])|(\d{12})$/; // Regular expression to validate the NIC format
+    const regex = /^(\d{9}[vVxX])|(\d{12})$/; // Regular expression to validate the NIC format
     return regex.test(nic);
   };
 
@@ -113,14 +113,15 @@ function RequestForm() {
     }
 
     if (isValid) {
+      localStorage.removeItem("requestId");
       const requestDetails = {
-        nic_number: NIC,
-        house_no: houseNumber,
-        street: street,
-        city: city,
-        district: district,
-        province: province,
-        email: EMAIL
+        nic_number: NIC.toLowerCase(),
+        house_no: houseNumber.toLowerCase(),
+        street: street.toLowerCase(),
+        city: city.toLowerCase(),
+        district: district.toLowerCase(),
+        province: province.toLowerCase(),
+        email: state.username.toLowerCase(),
       };
 
       var url = API_HOST + "/request";

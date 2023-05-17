@@ -9,10 +9,10 @@ import RequestSuccessSVG from "../../assets/images/svg/request-success.svg";
 import Button from "../../ui-library/Button/Button";
 import Navbar from "../Navbar/Navbar";
 
-// Libraries & Packages
-import { Link } from "react-router-dom";
-
 function RequestSuccess() {
+  const statusPage = () => {
+    window.location.href = "/check-status";
+  };
   return (
     <div className="requestSuccess">
       <div className="requestSuccess__container">
@@ -34,9 +34,7 @@ function RequestSuccess() {
             </p>
           </div>
           <div className="requestSuccess__content__buttons">
-            <Link to="/">
-              <Button>GO BACK</Button>
-            </Link>
+              <Button onClick={statusPage}>GO BACK</Button>
           </div>
         </div>
       </div>
