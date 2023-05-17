@@ -39,6 +39,7 @@ function App() {
           });
       } else {
         localStorage.removeItem("user");
+        localStorage.removeItem("requestId");
       }
     }, []);
 
