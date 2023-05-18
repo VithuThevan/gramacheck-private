@@ -44,6 +44,7 @@ isolated function getRequestQuery(string email) returns sql:ParameterizedQuery {
         request
     WHERE 
         email = ${email}
+        AND status!="completed"
        
     `;
 }
