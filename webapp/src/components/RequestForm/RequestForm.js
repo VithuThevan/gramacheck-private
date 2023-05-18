@@ -37,7 +37,7 @@ function RequestForm() {
   ).access_token;
 
   const validateNIC = (nic) => {
-    const regex = /^(\d{9}[vVx])|(\d{12})$/; // Regular expression to validate the NIC format
+    const regex = /^(\d{9}[vVxX])|(\d{12})$/; // Regular expression to validate the NIC format
     return regex.test(nic);
   };
 
@@ -176,7 +176,6 @@ function RequestForm() {
                 <div></div>
               </div>
               {/* House Number */}
-
               <div className="requestForm__content_card__item">
                 <InputText
                   title="House Number"

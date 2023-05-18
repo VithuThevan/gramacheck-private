@@ -1,0 +1,133 @@
+/* ----- GramaSevakaDashboard.scss ----- */
+@import "../../utils/styles/Theme.scss";
+
+.gramaSevakaDashboard {
+  width: 100%;
+  height: 100vh;
+  // background-color: lightgreen;
+
+  .gramaSevakaDashboard__container {
+    width: 100%;
+    height: 100%;
+
+    background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.5)
+      ),
+      url("../../assets/images/background/Background.png");
+    //   background-image: url("../../assets/images/background/Background.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  .gramaSevakaDashboard__content {
+    width: 100%;
+    height: calc(100vh - 80px);
+    // background-color: coral;
+
+    .gramaSevakaDashboard__content__container {
+      width: 100%;
+      height: 100%;
+      // background-color: lightgreen;
+
+      margin: 0px auto;
+
+      overflow: auto;
+
+      padding-bottom: 100px;
+
+      .gramaSevakaDashboard__title {
+        width: 100%;
+        height: 60px;
+        background-color: lightgreen;
+
+        @include flexbox;
+
+        p {
+          color: $primary-regular;
+          font-size: $font-max;
+          font-weight: $font-weight-bold;
+          text-transform: uppercase;
+        }
+      }
+
+      .gramaSevakaDashboard__header {
+        width: 90%;
+        height: 60px;
+        // background-color: coral;
+
+        margin: 0px auto;
+        margin-bottom: 10px;
+
+        background-color: rgba($primary-regular, 1);
+
+        @include flexbox;
+
+        border-radius: 5px;
+
+        .gramaSevakaDashboard__header__item {
+          height: 100%;
+          width: 33.4%;
+          // background-color: lightblue;
+
+          .gramaSevakaDashboard__header__item__title {
+            width: 100%;
+            height: 100%;
+
+            @include flexbox;
+
+            p {
+              color: $white;
+              font-size: $font-regular;
+              font-weight: $font-weight-bold;
+            }
+          }
+        }
+      }
+
+      .gramaSevakaDashboard__body {
+        .gramaSevakaDashboard__item {
+          width: 90%;
+          height: 60px;
+          // background-color: coral;
+
+          margin: 0px auto;
+          margin-bottom: 10px;
+
+          background-color: rgba($white, 1);
+
+          @include flexbox;
+
+          .gramaSevakaDashboard__title {
+            height: 100%;
+            width: 33.4%;
+            // background-color: lightblue;
+
+            border-bottom: 1px solid rgba($color: $grey-regular, $alpha: 0.3);
+
+            p {
+              color: $primary-regular;
+              font-size: $font-regular;
+              font-weight: $font-weight-medium;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Media Queries
+
+@media (width<=700px) {
+  .gramaSevakaDashboard {
+    .gramaSevakaDashboard__container {
+      .gramaSevakaDashboard__content {
+        .gramaSevakaDashboard__content__container {
+        }
+      }
+    }
+  }
+}
