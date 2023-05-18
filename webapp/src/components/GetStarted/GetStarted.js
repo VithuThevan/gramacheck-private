@@ -82,7 +82,7 @@ function GetStarted() {
             </p>
           </div>
           <div>
-            {status === "completed" ? window.location.href = "/request-form" : window.location.href = "/check-status"}
+            {status === "success" || status === "pending" || status === "rejected" ? window.location.href = "/check-status" : window.location.href = "/request-form"}
           </div>
         </div>
       </div>
