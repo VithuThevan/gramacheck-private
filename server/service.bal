@@ -130,6 +130,28 @@ service /requestService on new http:Listener(9091) {
         return result;
     }
 
+
+
+    isolated resource function get citizen/[string nic_number]()
+    returns types:Citizen|types:AppServerError|types:AppNotFoundError {
+        types:Citizen|error? result = database:getCitizen(nic_number);
+        if result is () {
+            return <types:AppNotFoundError>{
+                body: {
+                    message: constants:ID_NOT_FOUND
+                }
+            };
+        }
+        if result is error {
+            return <types:AppServerError>{
+                body: {
+                    message: constants:CANNOT_RETRIEVE_FROM_DB
+                }
+            };
+        }
+        return result;
+    }
+
 }
 
 // service /Identity on new http:Listener(9090) {
