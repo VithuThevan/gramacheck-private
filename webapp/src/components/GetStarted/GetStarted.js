@@ -7,9 +7,11 @@ import GetStartedSVG from "../../assets/images/svg/get-started.svg";
 
 // Components
 import Navbar from "../Navbar/Navbar";
+import Button from "../../ui-library/Button/Button";
 
 // Libraries & Packages
 import { useAuthContext } from "@asgardeo/auth-react";
+import { Link } from "react-router-dom";
 
 function GetStarted() {
   // Asgardeo Auth Context
@@ -43,7 +45,7 @@ function GetStarted() {
     sessionStorage.getItem("session_data-instance_0")
   ).access_token;
 
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("null");
 
   useEffect(() => {
     const getUserStatus = () => {
@@ -57,7 +59,7 @@ function GetStarted() {
         redirect: 'follow'
       }
 
-      fetch(url, requestOptions).then(response => response.text()).then(result => setStatus(JSON.parse(result).status)).catch(error => console.log(error))
+      fetch(url, requestOptions).then(response =>  response.text()).then(result => setStatus(JSON.parse(result).status)).catch(error => console.log(error))
     }
 
     getUserStatus();
@@ -82,7 +84,16 @@ function GetStarted() {
             </p>
           </div>
           <div>
-            {status === "success" || status === "pending" || status === "rejected" ? window.location.href = "/check-status" : window.location.href = "/request-form"}
+            {status === "success" || status === "pending" || status === "rejected" ?
+              window.location.href = "/check-status" :
+              (
+                <div className="getStarted__content__buttons">
+                  <Link to="/request-form">
+                    <Button>GET STARTED</Button>
+                  </Link>
+                </div>
+              )
+            }
           </div>
         </div>
       </div>
