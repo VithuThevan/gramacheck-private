@@ -14,6 +14,7 @@ import StatusSuccessPage from "./pages/StatusSuccessPage/StatusSuccessPage";
 import StatusPendingPage from "./pages/StatusPendingPage/StatusPendingPage";
 import StatusRejectedPage from "./pages/StatusRejectedPage/StatusRejectedPage";
 import RequestFormPage from "./pages/RequestFormPage/RequestFormPage";
+import GramaSevakaDashboardPage from "./pages/GramaSevakaDashboardPage/GramaSevakaDashboardPage";
 
 function App() {
   // Asgardeo Auth Context
@@ -55,6 +56,10 @@ function App() {
           </Switch>
         ) : (
           <Switch>
+            {/* GramaSevakaDashboard */}
+            <Route exact path="/grama-sevaka-dashboard">
+              <GramaSevakaDashboardPage />
+            </Route>
             {/* Landing */}
             <Route path="/">
               <LandingPage />

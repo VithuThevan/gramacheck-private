@@ -22,7 +22,7 @@ import { Colors } from "../../utils/styles/Theme";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
-function Navbar() {
+function Navbar({ mockUser }) {
   // Asgardeo Auth Context
   const { state, signOut, getBasicUserInfo } = useAuthContext();
 
@@ -77,13 +77,17 @@ function Navbar() {
         {/* Username */}
         <div className="navbar__username">
           {!user ? (
-            <Skeleton
-              count={1}
-              width={150}
-              height={20}
-              baseColor={Color(Colors.primary_regular).alpha(0.2)}
-              highlightColor={Color(Colors.primary_regular).alpha(0.2)}
-            />
+            !mockUser ? (
+              <Skeleton
+                count={1}
+                width={150}
+                height={20}
+                baseColor={Color(Colors.primary_regular).alpha(0.2)}
+                highlightColor={Color(Colors.primary_regular).alpha(0.2)}
+              />
+            ) : (
+              <p>{`${mockUser?.firstName} ${mockUser?.lastName}`}</p>
+            )
           ) : (
             <p>{`${user?.firstName} ${user?.lastName}`}</p>
           )}
@@ -91,14 +95,27 @@ function Navbar() {
         {/* UserImage */}
         <div className="navbar__userimage">
           {!user ? (
-            <Skeleton
-              borderRadius={"50%"}
-              count={1}
-              width={40}
-              height={40}
-              baseColor={Color(Colors.primary_regular).alpha(0.2)}
-              highlightColor={Color(Colors.primary_regular).alpha(0.2)}
-            />
+            !mockUser ? (
+              <Skeleton
+                borderRadius={"50%"}
+                count={1}
+                width={40}
+                height={40}
+                baseColor={Color(Colors.primary_regular).alpha(0.2)}
+                highlightColor={Color(Colors.primary_regular).alpha(0.2)}
+              />
+            ) : (
+              <img
+                src={`https://ui-avatars.com/api/?background=${Colors.primary_regular.replace(
+                  "#",
+                  ""
+                )}&color=${Colors.white.replace("#", "")}&name=${
+                  mockUser.firstName
+                }+${mockUser.lastName}`}
+                alt=""
+                onClick={() => setDisplay(!display)}
+              />
+            )
           ) : (
             <img
               src={`https://ui-avatars.com/api/?background=${Colors.primary_regular.replace(

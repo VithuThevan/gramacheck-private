@@ -10,6 +10,7 @@ import Button from "../../ui-library/Button/Button";
 
 // Libraries & Packages
 import { useAuthContext } from "@asgardeo/auth-react";
+import { Link } from "react-router-dom";
 
 function GetStarted() {
   // Asgardeo Auth Context
@@ -53,6 +54,7 @@ function GetStarted() {
         },
         redirect: 'follow'
       }
+
       fetch(url, requestOptions)
       .then(response => response.json())
       .then(data => {
