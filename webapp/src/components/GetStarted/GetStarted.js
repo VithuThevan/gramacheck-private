@@ -1,5 +1,4 @@
 /* ----- GetStarted.js ----- */
-import React, { useEffect, useState } from "react";
 import "./GetStarted.scss";
 
 // Assets
@@ -7,6 +6,7 @@ import GetStartedSVG from "../../assets/images/svg/get-started.svg";
 
 // Components
 import Navbar from "../Navbar/Navbar";
+import Button from "../../ui-library/Button/Button";
 
 // Libraries & Packages
 import { useAuthContext } from "@asgardeo/auth-react";
@@ -43,9 +43,6 @@ function GetStarted() {
     sessionStorage.getItem("session_data-instance_0")
   ).access_token;
 
-  const [status, setStatus] = useState("");
-
-  useEffect(() => {
     const getUserStatus = () => {
       var url = API_HOST + `/request/${JSON.parse(localStorage.getItem("user")).email}`;
 
@@ -56,12 +53,27 @@ function GetStarted() {
         },
         redirect: 'follow'
       }
-
-      fetch(url, requestOptions).then(response => response.text()).then(result => setStatus(JSON.parse(result).status)).catch(error => console.log(error))
-    }
-
-    getUserStatus();
-  }, [TOKEN])
+      fetch(url, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response data here
+        console.log(data);
+        const requestId = {
+          requestId: data.request_id,
+        };
+        localStorage.setItem("requestId", JSON.stringify(requestId));
+        // This will log the response data to the console.
+        console.log(data.request_id);
+        // Redirect to the appropriate page based on the request status
+        if (data.status === "success"||data.status === "rejected"||data.status === "pending") {
+          console.log(data.requestId);
+          window.location.href = "/check-status";
+        } else {
+          window.location.href = "/request-form";
+        }
+      })
+      .catch(error => console.log(error));
+  };
 
   return (
     <div className="getStarted">
@@ -81,8 +93,8 @@ function GetStarted() {
               Easy, Convinient & Efficient way to Get Your Official Documents.
             </p>
           </div>
-          <div>
-            {status === "success" || status === "pending" || status === "rejected" ? window.location.href = "/check-status" : window.location.href = "/request-form"}
+          <div className="getStarted__content__buttons">
+            <Button onClick={getUserStatus}>GET STARTED</Button>
           </div>
         </div>
       </div>
