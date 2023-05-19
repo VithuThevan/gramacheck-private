@@ -19,6 +19,19 @@ public type Request record {
     string reason?;
 };
 
+public type Citizen record {
+    string nic;
+    string first_name;
+    string last_name;
+    string house_no;
+    string street;
+    string city;
+    string district;
+    string province;
+    string phone_number;
+    string gs_division ;
+};
+
 public type Identity record {
     string nic_number;
 };

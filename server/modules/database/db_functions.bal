@@ -38,6 +38,17 @@ public isolated function getRequest(string email) returns types:Request|error {
 }
 
 
+public isolated function getCitizen(string nic_number) returns types:Citizen|error {
+    stream<types:Citizen, sql:Error?> requestResultStream = databaseClient->query(getCitizenQuery(nic_number));
+    types:Citizen[] Result = check from var result in requestResultStream
+        select result;
+
+    if Result.length() == 0 {
+        return error("Request not found");
+    }
+    return Result[0];
+}
+
 
 public isolated function getAllRequests() returns types:Request[]|error {
     stream<types:Request, sql:Error?> requestResultStream = databaseClient->query(getAllRequestQuery());
