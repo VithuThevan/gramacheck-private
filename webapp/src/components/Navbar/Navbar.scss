@@ -18,7 +18,7 @@
     .navbar__logo {
       width: 240px;
       height: 100%;
-      //   background-color: lightcyan;
+      // background-color: lightcyan;
 
       @include flexbox;
       justify-content: flex-start;
@@ -30,7 +30,7 @@
     .navbar__username {
       width: calc(100% - 340px);
       height: 100%;
-      //   background-color: lightpink;
+      // background-color: lightpink;
 
       @include flexbox;
       justify-content: flex-end;
@@ -45,7 +45,7 @@
     .navbar__userimage {
       width: 50px;
       height: 100%;
-      //   background-color: lightcyan;
+      // background-color: lightcyan;
 
       @include flexbox;
 
@@ -66,7 +66,7 @@
 
       .navbar__menu {
         width: 200px;
-        height: 80px;
+        min-height: 40px;
         // background-color: lightgreen;
 
         @include flexbox;
@@ -156,32 +156,17 @@
   .navbar {
     .navbar__container {
       .navbar__logo {
-        width: calc(100% - 50px);
+        width: 140px;
+        // width: calc(100% - 210px);
       }
       .navbar__username {
-        display: none;
+        width: calc(100% - 240px);
       }
       .navbar__userimage {
-        width: 50px;
-      }
-    }
-  }
-}
-
-@media (width<=700px) {
-  .navbar {
-    .navbar__container {
-      .navbar__logo {
-        width: calc(100% - 210px);
-      }
-      .navbar__username {
-        display: none;
-      }
-      .navbar__userimage {
-        display: none;
+        // display: none;
       }
       .navbar__signout {
-        width: 210px;
+        // width: 210px;
       }
     }
   }

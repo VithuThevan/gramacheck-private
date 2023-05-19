@@ -45,3 +45,15 @@
     }
   }
 }
+
+// Media Queries
+
+@media (width<=700px) {
+  .popup {
+    .popup__container {
+      .popup__card {
+        width: 90%;
+      }
+    }
+  }
+}

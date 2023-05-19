@@ -134,27 +134,24 @@ function Navbar({ mockUser }) {
             style={display ? { display: "flex" } : { display: "none" }}
           >
             {/* Signout */}
-            <div className="navbar__menu__item__signout" onClick={signOut}>
+            <div
+              className="navbar__menu__item__signout"
+              onClick={!mockUser ? signOut : () => window.location.assign("/")}
+            >
               <ExitToAppIcon />
               <p>Signout</p>
             </div>
             {/* Help */}
-
-            <div className="navbar__menu__item__help">
-              <Link to="/help" style={{ textDecoration: "none" }}>
-                <HelpOutlineIcon />
-                <p>Help</p>
-              </Link>
-            </div>
+            {!mockUser && (
+              <div className="navbar__menu__item__help">
+                <Link to="/help" style={{ textDecoration: "none" }}>
+                  <HelpOutlineIcon />
+                  <p>Help</p>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
-
-        {/* Signout */}
-        {/* <div className="navbar__signout">
-          <Button variant="primary" onClick={signOut}>
-            SIGNOUT
-          </Button>
-        </div> */}
       </div>
     </div>
   );

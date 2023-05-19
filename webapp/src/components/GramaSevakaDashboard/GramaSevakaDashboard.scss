@@ -39,17 +39,20 @@
       padding-bottom: 100px;
 
       .gramaSevakaDashboard__title {
-        width: 100%;
+        width: 90%;
         height: 60px;
         // background-color: lightgreen;
 
         @include flexbox;
+
+        margin: 0px auto;
 
         p {
           color: $primary-regular;
           font-size: $font-max;
           font-weight: $font-weight-bold;
           text-transform: uppercase;
+          text-align: center;
         }
       }
 
@@ -90,7 +93,7 @@
       .gramaSevakaDashboard__body {
         .gramaSevakaDashboard__body__item {
           width: 90%;
-          height: 60px;
+          min-height: 60px;
           // background-color: coral;
 
           margin: 0px auto;
@@ -100,7 +103,7 @@
           @include flexbox;
 
           .gramaSevakaDashboard__body__item__email {
-            height: 100%;
+            min-height: 60px;
             width: 33.4%;
             // background-color: lightblue;
 
@@ -112,10 +115,12 @@
               color: $primary-regular;
               font-size: $font-regular;
               font-weight: $font-weight-medium;
+              word-break: break-all;
+              padding: 0px 15px;
             }
           }
           .gramaSevakaDashboard__body__item__status {
-            height: 100%;
+            min-height: 60px;
             width: 33.4%;
             // background-color: lightblue;
 
@@ -124,7 +129,7 @@
             @include flexbox;
           }
           .gramaSevakaDashboard__body__item__action {
-            height: 100%;
+            min-height: 60px;
             width: 33.4%;
             // background-color: lightblue;
 
@@ -222,7 +227,6 @@
     text-decoration: underline;
   }
 }
-
 .requestDetailsItem {
   width: 100%;
   min-height: 30px;
@@ -232,7 +236,7 @@
   @include flexbox;
 
   .requestDetailsItem__title {
-    width: 30%;
+    width: 40%;
     height: 100%;
     // background-color: lightcoral;
 
@@ -244,7 +248,7 @@
     p {
       font-weight: $font-weight-medium;
       color: $primary-regular;
-      word-break: break-all;
+      word-wrap: break-word;
     }
   }
   .requestDetailsItem__seperator {
@@ -261,7 +265,7 @@
   }
 
   .requestDetailsItem__value {
-    width: 70%;
+    width: 60%;
     height: 100%;
     // background-color: lightcyan;
 
@@ -269,7 +273,7 @@
 
     .requestDetailsItem__value__text {
       color: $grey-regular;
-      word-break: break-all;
+      word-wrap: break-word;
     }
   }
 }
@@ -281,7 +285,12 @@
     .gramaSevakaDashboard__content {
       .gramaSevakaDashboard__content__container {
         .gramaSevakaDashboard__title {
-          display: none;
+          height: 80px;
+        }
+
+        .gramaSevakaDashboard__body {
+          .gramaSevakaDashboard__body__item {
+          }
         }
       }
     }
