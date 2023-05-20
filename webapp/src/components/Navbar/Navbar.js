@@ -49,26 +49,29 @@ function Navbar() {
 
   // useEffect
   useEffect(() => {
-    if (state.isAuthenticated) {
-      getBasicUserInfo()
-        .then((basicUserDetails) => {
-          const userData = {
-            firstName: basicUserDetails.givenName,
-            lastName: basicUserDetails.familyName,
-            email: basicUserDetails.username,
-            group: basicUserDetails.groups
-          };
-          setUser(userData);
-          if (userData.group !== undefined) {
-            if (userData.group[0] === "GramaSevaka") {
-              setIsGS(true);
+    const getBasicUserDetails = () => {
+      if (state.isAuthenticated) {
+        getBasicUserInfo()
+          .then((basicUserDetails) => {
+            const userData = {
+              firstName: basicUserDetails.givenName,
+              lastName: basicUserDetails.familyName,
+              email: basicUserDetails.username,
+              group: basicUserDetails.groups
+            };
+            setUser(userData);
+            if (userData.group !== undefined) {
+              if (userData.group[0] === "GramaSevaka") {
+                setIsGS(true);
+              }
             }
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
+    getBasicUserDetails();
   }, [state.isAuthenticated, getBasicUserInfo]);
 
   return (
@@ -123,7 +126,10 @@ function Navbar() {
             style={display ? { display: "flex" } : { display: "none" }}
           >
             {/* Signout */}
-            <div className="navbar__menu__item__signout" onClick={signOut}>
+            <div className="navbar__menu__item__signout" onClick={() => {
+              localStorage.removeItem("user");
+              signOut();
+            }}>
               <ExitToAppIcon />
               <p>Signout</p>
             </div>
