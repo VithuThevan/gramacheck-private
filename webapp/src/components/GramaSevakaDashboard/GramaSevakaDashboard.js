@@ -1,5 +1,5 @@
 /* ----- GramaSevakaDashboard.js ----- */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./GramaSevakaDashboard.scss";
 
 // Assets
@@ -21,26 +21,35 @@ import Popup from "../../ui-library/Popup/Popup";
 import InputTextArea from "../../ui-library/InputTextArea/InputTextArea";
 
 function GramaSevakaDashboard() {
-  // State
-  const [requests, setRequests] = useState([
-    {
-      id: "1",
-      email: "test1@gmail.com",
-      status: "pending",
-    },
+  // Choreo base endpoint
+  const API_HOST =
+    "https://f82fbb50-01e1-4078-a9f8-0d4ed79a518a-dev.e1-us-east-azure.choreoapis.dev/sbmq/grama-check/requestservice-369/1.0.0";
+  
+  // Asgardeo access token
+  const TOKEN = JSON.parse(
+    sessionStorage.getItem("session_data-instance_0")
+  ).access_token;
 
-    {
-      id: "2",
-      email: "test2@gmail.com",
-      status: "rejected",
-    },
-    {
-      id: "3",
-      email: "test3@gmail.com",
-      status: "approved",
-    },
-  ]);
+  const [requests, setRequests] = useState(); 
 
+  useEffect(() => {
+    const getAllRequests = () => {
+      var url = API_HOST + "/allRequests";
+
+      var requestOptions = {
+        method: 'GET',
+        headers: {
+          Authorization: "Bearer " + TOKEN,
+        },
+        redirect: 'follow'
+      }
+
+      fetch(url, requestOptions).then(response => response.text()).then(result => setRequests(JSON.parse(result))).catch(error => console.log(error));
+    }
+
+    getAllRequests();
+  }, [TOKEN])
+  
   const [displayPopup, setDisplayPopup] = useState(false);
   const [displayRejectPopup, setDisplayRejectPopup] = useState(false);
   const [displayApprovePopup, setDisplayApprovePopup] = useState(false);
@@ -81,25 +90,25 @@ function GramaSevakaDashboard() {
               {!requests
                 ? ""
                 : requests.map((request, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className="gramaSevakaDashboard__body__item"
-                      >
-                        <div className="gramaSevakaDashboard__body__item__email">
-                          <p>{request.email}</p>
-                        </div>
-                        <div className="gramaSevakaDashboard__body__item__status">
-                          <StatusIcon variant={request.status} />
-                        </div>
-                        <div className="gramaSevakaDashboard__body__item__action">
-                          <SettingsIcon
-                            onClick={() => setDisplayPopup(!displayPopup)}
-                          />
-                        </div>
+                  return (
+                    <div
+                      key={index}
+                      className="gramaSevakaDashboard__body__item"
+                    >
+                      <div className="gramaSevakaDashboard__body__item__email">
+                        <p>{request.email}</p>
                       </div>
-                    );
-                  })}
+                      <div className="gramaSevakaDashboard__body__item__status">
+                        <StatusIcon variant={request.status} />
+                      </div>
+                      <div className="gramaSevakaDashboard__body__item__action">
+                        <SettingsIcon
+                          onClick={() => setDisplayPopup(!displayPopup)}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
             </div>
           </div>
         </div>
