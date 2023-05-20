@@ -31,7 +31,11 @@ function GramaSevakaDashboard() {
   ).access_token;
 
   const [requests, setRequests] = useState();
+  const [citizen, setcitizen] = useState({});
   const [request, setRequest] = useState({});
+  const [identity, setIdentity] = useState();
+  const [addressCheck, setAddressCheck] = useState();
+  const[policeCheck,setPoliceCheck]=useState();
 
   useEffect(() => {
     const getAllRequests = () => {
@@ -55,11 +59,135 @@ function GramaSevakaDashboard() {
     getAllRequests();
   }, [TOKEN])
 
+    const getCitizen = (nic_number) => {
+      console.log(nic_number);
+    var nic=nic_number;
+      var url = API_HOST + "/citizen/"+nic;
+
+      var requestOptions = {
+        method: 'GET',
+        headers: {
+          Authorization: "Bearer " + TOKEN,
+        },
+        redirect: 'follow'
+      }
+
+      fetch(url, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response data here
+        console.log(data+"citizen");
+        setcitizen(data);
+      }).catch(error => {setcitizen("");console.log(error);});
+    };
+    const checkAPI=(request_id,nic)=>{
+      console.log(nic);
+      console.log(request_id);
+      var url1 = API_HOST + "/identity/"+nic;
+
+      var requestOption1 = {
+        method: 'GET',
+        headers: {
+          Authorization: "Bearer " + TOKEN,
+        },
+        redirect: 'follow'
+      }
+
+      fetch(url1, requestOption1)
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response data here
+        console.log(data+"identity");
+        if(data===true){
+          setIdentity("Identity verified");
+        }else{
+          setIdentity("Identity is not verified");
+        }
+      }).catch(error => {
+        console.log(error);
+        setIdentity("Identity is not verified"); // set the identity state as false in case of error
+      });
+
+        var url2 = API_HOST + "/policestatus/"+nic;
+  
+        var requestOption2 = {
+          method: 'GET',
+          headers: {
+            Authorization: "Bearer " + TOKEN,
+          },
+          redirect: 'follow'
+        }
+  
+        fetch(url2, requestOption2)
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data here
+          console.log(data+"police");
+          if (data===1){
+            setPoliceCheck("Criminal records found");
+          }else if(data===0){
+          setPoliceCheck("No criminal records found");
+          }else{
+            setPoliceCheck("Police check failed");
+          }
+        }).catch(error => {setPoliceCheck("Police check failed");console.log(error)});  
+          var url3 = API_HOST + "/address/"+request_id;
+    
+          var requestOption3 = {
+            method: 'GET',
+            headers: {
+              Authorization: "Bearer " + TOKEN,
+            },
+            redirect: 'follow'
+          }
+    
+          fetch(url3, requestOption3)
+          .then(response => response.json())
+          .then(data => {
+            // Handle the response data here
+            console.log(data);
+            if (data==1){
+            setAddressCheck("Address verified");
+            }
+            else {
+              setAddressCheck("Address Check Failed")
+            }
+          }).catch(error => {setAddressCheck("Not in the Database"); console.log(error);});
+    };
+   
+  
+
   const [displayPopup, setDisplayPopup] = useState(false);
   const [displayRejectPopup, setDisplayRejectPopup] = useState(false);
   const [displayApprovePopup, setDisplayApprovePopup] = useState(false);
 
   const [value, setValue] = useState("This is filler text for testing!");
+  const updateStatus = (requestId,status) => {
+    console.log("Update Status");
+    const url = API_HOST + "/request/" + requestId;
+    const requestStatus = {
+      requestId: requestId,
+      status:status
+    }
+    var requestOptions = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + TOKEN,
+      },
+      body: JSON.stringify(requestStatus),
+      redirect: "follow",
+    };
+
+    fetch(url, requestOptions)
+      .then((response) => {
+        if (response.ok) {
+          console.log("Request status updated successfully");
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
 
   return (
     <div className="gramaSevakaDashboard">
@@ -108,7 +236,8 @@ function GramaSevakaDashboard() {
                       </div>
                       <div className="gramaSevakaDashboard__body__item__action">
                         <SettingsIcon
-                          onClick={() => { setDisplayPopup(!displayPopup); setRequest(request) }}
+                          onClick={() => { setDisplayPopup(!displayPopup); setRequest(request);
+                            getCitizen(request.nic_number);checkAPI(request.request_id,request.nic_number) }}
                         />
                       </div>
                     </div>
@@ -156,28 +285,31 @@ function GramaSevakaDashboard() {
             {/* ----- General Details ----- */}
             <RequestDetailsItemSubHeader subheading="General Details" />
             {/* NIC */}
-            <RequestDetailsItem title="NIC" value="NIC value" />
-            {/* Email */}
-            <RequestDetailsItem title="Email" value="Email value" />
-            {/* First Name */}
-            <RequestDetailsItem title="First Name" value="First Name value" />
-            {/* Last Name */}
-            <RequestDetailsItem title="Last Name" value="Last Name value" />
-            {/* Mobile */}
-            <RequestDetailsItem title="Mobile" value="Mobile value" />
-
-            {/* ----- Address ----- */}
-            <RequestDetailsItemSubHeader subheading="Address" />
-            {/* House No */}
-            <RequestDetailsItem title="House No" value="House No value" />
-            {/* Street */}
-            <RequestDetailsItem title="Street" value="Street value" />
-            {/* City */}
-            <RequestDetailsItem title="City" value="City value" />
-            {/* District */}
-            <RequestDetailsItem title="District" value="District value" />
-            {/* Province */}
-            <RequestDetailsItem title="Province" value="Province value" />
+            {citizen.nic ===undefined ? (
+   <div style={{ color: "red" }}>"No records in the database for this citizen" </div>
+) : (
+  <>
+    <RequestDetailsItem title="NIC" value={citizen.nic} />
+    {/* First Name */}
+    <RequestDetailsItem title="First Name" value={citizen.first_name} />
+    {/* Last Name */}
+    <RequestDetailsItem title="Last Name" value={citizen.last_name} />
+    {/* Mobile */}
+    <RequestDetailsItem title="Mobile" value={citizen.phone_number} /> {/* Corrected value */}
+    {/* ----- Address ----- */}
+    <RequestDetailsItemSubHeader subheading="Address" />
+    {/* House No */}
+    <RequestDetailsItem title="House No" value={citizen.house_no} />
+    {/* Street */}
+    <RequestDetailsItem title="Street" value={citizen.street} />
+    {/* City */}
+    <RequestDetailsItem title="City" value={citizen.city} />
+    {/* District */}
+    <RequestDetailsItem title="District" value={citizen.district} />
+    {/* Province */}
+    <RequestDetailsItem title="Province" value={citizen.province} />
+  </>
+)}
 
             {/* ---------- Status Check ---------- */}
             <RequestDetailsItemHeader heading="Status Check" />
@@ -185,16 +317,16 @@ function GramaSevakaDashboard() {
             {/* ----- General Details ----- */}
             <RequestDetailsItemSubHeader subheading="General Details" />
             {/* NIC */}
-            <RequestDetailsItem title="NIC" value="NIC value" />
+            <RequestDetailsItem title="NIC" value={identity}/>
             {/* Address */}
-            <RequestDetailsItem title="Address" value="Address value" />
+            <RequestDetailsItem title="Address" value={addressCheck} />
             {/* Police */}
-            <RequestDetailsItem title="Police" value="Police value" />
+            <RequestDetailsItem title="Police" value={policeCheck} />
 
             {/* ---------- Action ---------- */}
             <RequestDetailsItemHeader heading="Action" />
             {/* Request Status */}
-            <RequestDetailsItem title="Request Status" value="pending" />
+            <RequestDetailsItem title="Request Status" value={request.status} />
           </div>
           <div className="gramaSevakaDashboard__popup__buttons">
             <Button
@@ -202,6 +334,7 @@ function GramaSevakaDashboard() {
               onClick={() => {
                 setDisplayPopup(false);
                 setDisplayRejectPopup(true);
+                updateStatus(request.request_id, "rejected");
               }}
             >
               REJECT
@@ -211,6 +344,8 @@ function GramaSevakaDashboard() {
               onClick={() => {
                 setDisplayPopup(false);
                 setDisplayApprovePopup(true);
+                updateStatus(request.request_id, "success");
+                
               }}
             >
               APPROVE
@@ -277,6 +412,7 @@ function GramaSevakaDashboard() {
               variant="primary"
               onClick={() => {
                 setDisplayApprovePopup(false);
+
               }}
             >
               APPROVE
