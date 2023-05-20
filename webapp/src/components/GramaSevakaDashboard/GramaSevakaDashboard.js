@@ -59,41 +59,41 @@ function GramaSevakaDashboard() {
     getAllRequests();
   }, [TOKEN])
 
-    const getCitizen = (nic_number) => {
-      console.log(nic_number);
+  const getCitizen = (nic_number) => {
+    console.log(nic_number);
     var nic=nic_number;
       var url = API_HOST + "/citizen/"+nic;
 
-      var requestOptions = {
-        method: 'GET',
-        headers: {
-          Authorization: "Bearer " + TOKEN,
-        },
-        redirect: 'follow'
-      }
+    var requestOptions = {
+      method: 'GET',
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      redirect: 'follow'
+    }
 
-      fetch(url, requestOptions)
+    fetch(url, requestOptions)
       .then(response => response.json())
       .then(data => {
         // Handle the response data here
         console.log(data+"citizen");
         setcitizen(data);
       }).catch(error => {setcitizen("");console.log(error);});
-    };
+  };
     const checkAPI=(request_id,nic)=>{
-      console.log(nic);
-      console.log(request_id);
+    console.log(nic);
+    console.log(request_id);
       var url1 = API_HOST + "/identity/"+nic;
 
-      var requestOption1 = {
-        method: 'GET',
-        headers: {
-          Authorization: "Bearer " + TOKEN,
-        },
-        redirect: 'follow'
-      }
+    var requestOption1 = {
+      method: 'GET',
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      redirect: 'follow'
+    }
 
-      fetch(url1, requestOption1)
+    fetch(url1, requestOption1)
       .then(response => response.json())
       .then(data => {
         // Handle the response data here
@@ -109,53 +109,53 @@ function GramaSevakaDashboard() {
       });
 
         var url2 = API_HOST + "/policestatus/"+nic;
-  
-        var requestOption2 = {
-          method: 'GET',
-          headers: {
-            Authorization: "Bearer " + TOKEN,
-          },
-          redirect: 'follow'
-        }
-  
-        fetch(url2, requestOption2)
-        .then(response => response.json())
-        .then(data => {
-          // Handle the response data here
+
+    var requestOption2 = {
+      method: 'GET',
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      redirect: 'follow'
+    }
+
+    fetch(url2, requestOption2)
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response data here
           console.log(data+"police");
           if (data===1){
-            setPoliceCheck("Criminal records found");
+          setPoliceCheck("Criminal records found");
           }else if(data===0){
           setPoliceCheck("No criminal records found");
           }else{
-            setPoliceCheck("Police check failed");
-          }
+          setPoliceCheck("Police check failed");
+        }
         }).catch(error => {setPoliceCheck("Police check failed");console.log(error)});  
           var url3 = API_HOST + "/address/"+request_id;
-    
-          var requestOption3 = {
-            method: 'GET',
-            headers: {
-              Authorization: "Bearer " + TOKEN,
-            },
-            redirect: 'follow'
-          }
-    
-          fetch(url3, requestOption3)
-          .then(response => response.json())
-          .then(data => {
-            // Handle the response data here
-            console.log(data);
+
+    var requestOption3 = {
+      method: 'GET',
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+      },
+      redirect: 'follow'
+    }
+
+    fetch(url3, requestOption3)
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response data here
+        console.log(data);
             if (data==1){
-            setAddressCheck("Address verified");
-            }
-            else {
-              setAddressCheck("Address Check Failed")
-            }
+          setAddressCheck("Address verified");
+        }
+        else {
+          setAddressCheck("Address Check Failed")
+        }
           }).catch(error => {setAddressCheck("Not in the Database"); console.log(error);});
-    };
-   
-  
+  };
+
+
 
   const [displayPopup, setDisplayPopup] = useState(false);
   const [displayRejectPopup, setDisplayRejectPopup] = useState(false);
@@ -220,7 +220,7 @@ function GramaSevakaDashboard() {
             </div>
             {/* Body */}
             <div className="gramaSevakaDashboard__body">
-              {requests === undefined 
+              {requests === undefined
                 ? ""
                 : requests.map((request, index) => {
                   return (
@@ -286,30 +286,30 @@ function GramaSevakaDashboard() {
             <RequestDetailsItemSubHeader subheading="General Details" />
             {/* NIC */}
             {citizen.nic ===undefined ? (
-   <div style={{ color: "red" }}>"No records in the database for this citizen" </div>
-) : (
-  <>
-    <RequestDetailsItem title="NIC" value={citizen.nic} />
-    {/* First Name */}
-    <RequestDetailsItem title="First Name" value={citizen.first_name} />
-    {/* Last Name */}
-    <RequestDetailsItem title="Last Name" value={citizen.last_name} />
-    {/* Mobile */}
-    <RequestDetailsItem title="Mobile" value={citizen.phone_number} /> {/* Corrected value */}
-    {/* ----- Address ----- */}
-    <RequestDetailsItemSubHeader subheading="Address" />
-    {/* House No */}
-    <RequestDetailsItem title="House No" value={citizen.house_no} />
-    {/* Street */}
-    <RequestDetailsItem title="Street" value={citizen.street} />
-    {/* City */}
-    <RequestDetailsItem title="City" value={citizen.city} />
-    {/* District */}
-    <RequestDetailsItem title="District" value={citizen.district} />
-    {/* Province */}
-    <RequestDetailsItem title="Province" value={citizen.province} />
-  </>
-)}
+              <div style={{ color: "red" }}>"No records in the database for this citizen" </div>
+            ) : (
+              <>
+                <RequestDetailsItem title="NIC" value={citizen.nic} />
+                {/* First Name */}
+                <RequestDetailsItem title="First Name" value={citizen.first_name} />
+                {/* Last Name */}
+                <RequestDetailsItem title="Last Name" value={citizen.last_name} />
+                {/* Mobile */}
+                <RequestDetailsItem title="Mobile" value={citizen.phone_number} /> {/* Corrected value */}
+                {/* ----- Address ----- */}
+                <RequestDetailsItemSubHeader subheading="Address" />
+                {/* House No */}
+                <RequestDetailsItem title="House No" value={citizen.house_no} />
+                {/* Street */}
+                <RequestDetailsItem title="Street" value={citizen.street} />
+                {/* City */}
+                <RequestDetailsItem title="City" value={citizen.city} />
+                {/* District */}
+                <RequestDetailsItem title="District" value={citizen.district} />
+                {/* Province */}
+                <RequestDetailsItem title="Province" value={citizen.province} />
+              </>
+            )}
 
             {/* ---------- Status Check ---------- */}
             <RequestDetailsItemHeader heading="Status Check" />
@@ -329,27 +329,29 @@ function GramaSevakaDashboard() {
             <RequestDetailsItem title="Request Status" value={request.status} />
           </div>
           <div className="gramaSevakaDashboard__popup__buttons">
-            <Button
-              variant="primary"
-              onClick={() => {
-                setDisplayPopup(false);
-                setDisplayRejectPopup(true);
-                updateStatus(request.request_id, "rejected");
-              }}
-            >
-              REJECT
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                setDisplayPopup(false);
-                setDisplayApprovePopup(true);
-                updateStatus(request.request_id, "success");
+            {request.status === "rejected" || request.status === "approved" ? null : (<div className="gramaSevakaDashboard__popup__buttons">
+              <Button
+                variant="primary"
+                onClick={() => {
+                  setDisplayPopup(false);
+                  setDisplayRejectPopup(true);
+                  updateStatus(request.request_id, "rejected");
+                }}
+              >
+                REJECT
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setDisplayPopup(false);
+                  setDisplayApprovePopup(true);
+                  updateStatus(request.request_id, "success");
                 
-              }}
-            >
-              APPROVE
-            </Button>
+                }}
+              >
+                APPROVE
+              </Button>
+            </div>)}
           </div>
         </Popup>
       </div>
