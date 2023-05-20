@@ -157,16 +157,9 @@
     .navbar__container {
       .navbar__logo {
         width: 140px;
-        // width: calc(100% - 210px);
       }
       .navbar__username {
         width: calc(100% - 240px);
-      }
-      .navbar__userimage {
-        // display: none;
-      }
-      .navbar__signout {
-        // width: 210px;
       }
     }
   }

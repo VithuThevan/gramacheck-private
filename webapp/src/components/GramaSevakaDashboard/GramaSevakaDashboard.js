@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import "./GramaSevakaDashboard.scss";
 
 // Assets
+import StatusRejectedSVG from "../../assets/images/svg/rejected.svg";
+import StatusSuccessSVG from "../../assets/images/svg/success.svg";
 
 // Components
 import Navbar from "../Navbar/Navbar";
@@ -16,6 +18,7 @@ import Button from "../../ui-library/Button/Button";
 // Icons
 import SettingsIcon from "@mui/icons-material/Settings";
 import Popup from "../../ui-library/Popup/Popup";
+import InputTextArea from "../../ui-library/InputTextArea/InputTextArea";
 
 function GramaSevakaDashboard() {
   // State
@@ -39,6 +42,11 @@ function GramaSevakaDashboard() {
   ]);
 
   const [displayPopup, setDisplayPopup] = useState(false);
+  const [displayRejectPopup, setDisplayRejectPopup] = useState(false);
+  const [displayApprovePopup, setDisplayApprovePopup] = useState(false);
+
+  const [value, setValue] = useState("This is filler text for testing!");
+
   return (
     <div className="gramaSevakaDashboard">
       <div className="gramaSevakaDashboard__container">
@@ -175,8 +183,90 @@ function GramaSevakaDashboard() {
             <RequestDetailsItem title="Request Status" value="pending" />
           </div>
           <div className="gramaSevakaDashboard__popup__buttons">
-            <Button variant="primary">REJECT</Button>
-            <Button variant="secondary">APPROVE</Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                setDisplayPopup(false);
+                setDisplayRejectPopup(true);
+              }}
+            >
+              REJECT
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setDisplayPopup(false);
+                setDisplayApprovePopup(true);
+              }}
+            >
+              APPROVE
+            </Button>
+          </div>
+        </Popup>
+      </div>
+      {/* Reject Popup */}
+      <div
+        className="gramaSevakaDashboard__popup__reject"
+        style={displayRejectPopup ? { display: "flex" } : { display: "none" }}
+      >
+        <Popup
+          display={displayRejectPopup}
+          setDisplayPopup={setDisplayRejectPopup}
+        >
+          <div className="gramaSevakaDashboard__popup__reject__header">
+            <p>Reject Request?</p>
+          </div>
+          <div className="gramaSevakaDashboard__popup__reject__image">
+            <img src={StatusRejectedSVG} alt="" />
+          </div>
+          <div className="gramaSevakaDashboard__popup__reject__text">
+            <p>
+              Do You want to reject the request made by the client?If so,
+              specify the reason below.
+            </p>
+          </div>
+          <div className="gramaSevakaDashboard__popup__reject__textarea">
+            <InputTextArea value={value} setValue={setValue} />
+          </div>
+          <div className="gramaSevakaDashboard__popup__reject__buttons">
+            <Button
+              variant="primary"
+              onClick={() => {
+                setDisplayRejectPopup(false);
+              }}
+            >
+              REJECT
+            </Button>
+          </div>
+        </Popup>
+      </div>
+      {/* Approve Popup */}
+      <div
+        className="gramaSevakaDashboard__popup__approve"
+        style={displayApprovePopup ? { display: "flex" } : { display: "none" }}
+      >
+        <Popup
+          display={displayApprovePopup}
+          setDisplayPopup={setDisplayApprovePopup}
+        >
+          <div className="gramaSevakaDashboard__popup__approve__header">
+            <p>Approve Request?</p>
+          </div>
+          <div className="gramaSevakaDashboard__popup__approve__image">
+            <img src={StatusSuccessSVG} alt="" />
+          </div>
+          <div className="gramaSevakaDashboard__popup__approve__text">
+            <p>Do You want to approve the request made by the client?</p>
+          </div>
+          <div className="gramaSevakaDashboard__popup__approve__buttons">
+            <Button
+              variant="primary"
+              onClick={() => {
+                setDisplayApprovePopup(false);
+              }}
+            >
+              APPROVE
+            </Button>
           </div>
         </Popup>
       </div>
