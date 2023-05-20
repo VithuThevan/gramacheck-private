@@ -327,6 +327,8 @@ function GramaSevakaDashboard() {
             <RequestDetailsItemHeader heading="Action" />
             {/* Request Status */}
             <RequestDetailsItem title="Request Status" value={request.status} />
+            {/* Reason for Rejection */}
+            {request.status === "rejected" && request.reason !== undefined ? <RequestDetailsItem title="Reason for rejection" value={request.reason} /> : null}
           </div>
           <div className="gramaSevakaDashboard__popup__buttons">
             {request.status === "rejected" || request.status === "approved" ? null : (<div className="gramaSevakaDashboard__popup__buttons">
