@@ -53,13 +53,13 @@ function App() {
             <Route path="/get-started">
               <GetStartedPage />
             </Route>
+            {/* GramaSevakaDashboard */}
+            <Route path="/grama-sevaka-dashboard">
+              <GramaSevakaDashboardPage />
+            </Route>
           </Switch>
         ) : (
           <Switch>
-            {/* GramaSevakaDashboard */}
-            <Route exact path="/grama-sevaka-dashboard">
-              <GramaSevakaDashboardPage />
-            </Route>
             {/* Landing */}
             <Route path="/">
               <LandingPage />

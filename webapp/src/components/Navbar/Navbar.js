@@ -22,7 +22,7 @@ import { Colors } from "../../utils/styles/Theme";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
-function Navbar({ mockUser }) {
+function Navbar() {
   // Asgardeo Auth Context
   const { state, signOut, getBasicUserInfo } = useAuthContext();
 
@@ -33,6 +33,7 @@ function Navbar({ mockUser }) {
   ]);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [display, setDisplay] = useState();
+  const [isGS, setIsGS] = useState(false);
 
   // useEffect
   useEffect(() => {
@@ -55,8 +56,14 @@ function Navbar({ mockUser }) {
             firstName: basicUserDetails.givenName,
             lastName: basicUserDetails.familyName,
             email: basicUserDetails.username,
+            group: basicUserDetails.groups
           };
           setUser(userData);
+          if (userData.group !== undefined) {
+            if (userData.group[0] === "GramaSevaka") {
+              setIsGS(true);
+            }
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -77,17 +84,13 @@ function Navbar({ mockUser }) {
         {/* Username */}
         <div className="navbar__username">
           {!user ? (
-            !mockUser ? (
-              <Skeleton
-                count={1}
-                width={150}
-                height={20}
-                baseColor={Color(Colors.primary_regular).alpha(0.2)}
-                highlightColor={Color(Colors.primary_regular).alpha(0.2)}
-              />
-            ) : (
-              <p>{`${mockUser?.firstName} ${mockUser?.lastName}`}</p>
-            )
+            <Skeleton
+              count={1}
+              width={150}
+              height={20}
+              baseColor={Color(Colors.primary_regular).alpha(0.2)}
+              highlightColor={Color(Colors.primary_regular).alpha(0.2)}
+            />
           ) : (
             <p>{`${user?.firstName} ${user?.lastName}`}</p>
           )}
@@ -95,35 +98,21 @@ function Navbar({ mockUser }) {
         {/* UserImage */}
         <div className="navbar__userimage">
           {!user ? (
-            !mockUser ? (
-              <Skeleton
-                borderRadius={"50%"}
-                count={1}
-                width={40}
-                height={40}
-                baseColor={Color(Colors.primary_regular).alpha(0.2)}
-                highlightColor={Color(Colors.primary_regular).alpha(0.2)}
-              />
-            ) : (
-              <img
-                src={`https://ui-avatars.com/api/?background=${Colors.primary_regular.replace(
-                  "#",
-                  ""
-                )}&color=${Colors.white.replace("#", "")}&name=${
-                  mockUser.firstName
-                }+${mockUser.lastName}`}
-                alt=""
-                onClick={() => setDisplay(!display)}
-              />
-            )
+            <Skeleton
+              borderRadius={"50%"}
+              count={1}
+              width={40}
+              height={40}
+              baseColor={Color(Colors.primary_regular).alpha(0.2)}
+              highlightColor={Color(Colors.primary_regular).alpha(0.2)}
+            />
           ) : (
             <img
               src={`https://ui-avatars.com/api/?background=${Colors.primary_regular.replace(
                 "#",
                 ""
-              )}&color=${Colors.white.replace("#", "")}&name=${
-                user.firstName
-              }+${user.lastName}`}
+              )}&color=${Colors.white.replace("#", "")}&name=${user.firstName
+                }+${user.lastName}`}
               alt=""
               onClick={() => setDisplay(!display)}
             />
@@ -134,22 +123,19 @@ function Navbar({ mockUser }) {
             style={display ? { display: "flex" } : { display: "none" }}
           >
             {/* Signout */}
-            <div
-              className="navbar__menu__item__signout"
-              onClick={!mockUser ? signOut : () => window.location.assign("/")}
-            >
+            <div className="navbar__menu__item__signout" onClick={signOut}>
               <ExitToAppIcon />
               <p>Signout</p>
             </div>
             {/* Help */}
-            {!mockUser && (
+            {!isGS &&
               <div className="navbar__menu__item__help">
                 <Link to="/help" style={{ textDecoration: "none" }}>
                   <HelpOutlineIcon />
                   <p>Help</p>
                 </Link>
               </div>
-            )}
+            }
           </div>
         </div>
       </div>
