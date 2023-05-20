@@ -24,13 +24,14 @@ function GramaSevakaDashboard() {
   // Choreo base endpoint
   const API_HOST =
     "https://f82fbb50-01e1-4078-a9f8-0d4ed79a518a-dev.e1-us-east-azure.choreoapis.dev/sbmq/grama-check/requestservice-369/1.0.0";
-  
+
   // Asgardeo access token
   const TOKEN = JSON.parse(
     sessionStorage.getItem("session_data-instance_0")
   ).access_token;
 
-  const [requests, setRequests] = useState(); 
+  const [requests, setRequests] = useState();
+  const [request, setRequest] = useState({});
 
   useEffect(() => {
     const getAllRequests = () => {
@@ -49,7 +50,7 @@ function GramaSevakaDashboard() {
 
     getAllRequests();
   }, [TOKEN])
-  
+
   const [displayPopup, setDisplayPopup] = useState(false);
   const [displayRejectPopup, setDisplayRejectPopup] = useState(false);
   const [displayApprovePopup, setDisplayApprovePopup] = useState(false);
@@ -103,7 +104,7 @@ function GramaSevakaDashboard() {
                       </div>
                       <div className="gramaSevakaDashboard__body__item__action">
                         <SettingsIcon
-                          onClick={() => setDisplayPopup(!displayPopup)}
+                          onClick={() => { setDisplayPopup(!displayPopup); setRequest(request) }}
                         />
                       </div>
                     </div>
@@ -128,22 +129,22 @@ function GramaSevakaDashboard() {
             {/* ----- General Details ----- */}
             <RequestDetailsItemSubHeader subheading="General Details" />
             {/* NIC */}
-            <RequestDetailsItem title="NIC" value="NIC value" />
+            <RequestDetailsItem title="NIC" value={request.nic_number} />
             {/* Email */}
-            <RequestDetailsItem title="Email" value="Email value" />
+            <RequestDetailsItem title="Email" value={request.email} />
 
             {/* ----- Address ----- */}
             <RequestDetailsItemSubHeader subheading="Address" />
             {/* House No */}
-            <RequestDetailsItem title="House No" value="House No value" />
+            <RequestDetailsItem title="House No" value={request.house_no} />
             {/* Street */}
-            <RequestDetailsItem title="Street" value="Street value" />
+            <RequestDetailsItem title="Street" value={request.street} />
             {/* City */}
-            <RequestDetailsItem title="City" value="City value" />
+            <RequestDetailsItem title="City" value={request.city} />
             {/* District */}
-            <RequestDetailsItem title="District" value="District value" />
+            <RequestDetailsItem title="District" value={request.district} />
             {/* Province */}
-            <RequestDetailsItem title="Province" value="Province value" />
+            <RequestDetailsItem title="Province" value={request.province} />
 
             {/* ---------- Grama Sevaka Records ---------- */}
             <RequestDetailsItemHeader heading="Grama Sevaka Records" />
