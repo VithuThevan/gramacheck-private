@@ -45,7 +45,11 @@ function GramaSevakaDashboard() {
         redirect: 'follow'
       }
 
-      fetch(url, requestOptions).then(response => response.text()).then(result => setRequests(JSON.parse(result))).catch(error => console.log(error));
+      fetch(url, requestOptions).then(response => {
+        if (response.ok) {
+          response.text().then(result => setRequests(JSON.parse(result))).catch(error => console.log(error))
+        }
+      }).catch(error => console.log(error));
     }
 
     getAllRequests();
@@ -88,7 +92,7 @@ function GramaSevakaDashboard() {
             </div>
             {/* Body */}
             <div className="gramaSevakaDashboard__body">
-              {!requests
+              {requests === undefined 
                 ? ""
                 : requests.map((request, index) => {
                   return (
