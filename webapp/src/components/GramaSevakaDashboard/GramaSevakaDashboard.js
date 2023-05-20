@@ -1,5 +1,5 @@
 /* ----- GramaSevakaDashboard.js ----- */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./GramaSevakaDashboard.scss";
 
 // Assets
@@ -21,25 +21,39 @@ import Popup from "../../ui-library/Popup/Popup";
 import InputTextArea from "../../ui-library/InputTextArea/InputTextArea";
 
 function GramaSevakaDashboard() {
-  // State
-  const [requests, setRequests] = useState([
-    {
-      id: "1",
-      email: "test1@gmail.com",
-      status: "pending",
-    },
+  // Choreo base endpoint
+  const API_HOST =
+    "https://f82fbb50-01e1-4078-a9f8-0d4ed79a518a-dev.e1-us-east-azure.choreoapis.dev/sbmq/grama-check/requestservice-369/1.0.0";
 
-    {
-      id: "2",
-      email: "test2@gmail.com",
-      status: "rejected",
-    },
-    {
-      id: "3",
-      email: "test3@gmail.com",
-      status: "approved",
-    },
-  ]);
+  // Asgardeo access token
+  const TOKEN = JSON.parse(
+    sessionStorage.getItem("session_data-instance_0")
+  ).access_token;
+
+  const [requests, setRequests] = useState();
+  const [request, setRequest] = useState({});
+
+  useEffect(() => {
+    const getAllRequests = () => {
+      var url = API_HOST + "/allRequests";
+
+      var requestOptions = {
+        method: 'GET',
+        headers: {
+          Authorization: "Bearer " + TOKEN,
+        },
+        redirect: 'follow'
+      }
+
+      fetch(url, requestOptions).then(response => {
+        if (response.ok) {
+          response.text().then(result => setRequests(JSON.parse(result))).catch(error => console.log(error))
+        }
+      }).catch(error => console.log(error));
+    }
+
+    getAllRequests();
+  }, [TOKEN])
 
   const [displayPopup, setDisplayPopup] = useState(false);
   const [displayRejectPopup, setDisplayRejectPopup] = useState(false);
@@ -78,28 +92,28 @@ function GramaSevakaDashboard() {
             </div>
             {/* Body */}
             <div className="gramaSevakaDashboard__body">
-              {!requests
+              {requests === undefined 
                 ? ""
                 : requests.map((request, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className="gramaSevakaDashboard__body__item"
-                      >
-                        <div className="gramaSevakaDashboard__body__item__email">
-                          <p>{request.email}</p>
-                        </div>
-                        <div className="gramaSevakaDashboard__body__item__status">
-                          <StatusIcon variant={request.status} />
-                        </div>
-                        <div className="gramaSevakaDashboard__body__item__action">
-                          <SettingsIcon
-                            onClick={() => setDisplayPopup(!displayPopup)}
-                          />
-                        </div>
+                  return (
+                    <div
+                      key={index}
+                      className="gramaSevakaDashboard__body__item"
+                    >
+                      <div className="gramaSevakaDashboard__body__item__email">
+                        <p>{request.email}</p>
                       </div>
-                    );
-                  })}
+                      <div className="gramaSevakaDashboard__body__item__status">
+                        <StatusIcon variant={request.status} />
+                      </div>
+                      <div className="gramaSevakaDashboard__body__item__action">
+                        <SettingsIcon
+                          onClick={() => { setDisplayPopup(!displayPopup); setRequest(request) }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
             </div>
           </div>
         </div>
@@ -119,22 +133,22 @@ function GramaSevakaDashboard() {
             {/* ----- General Details ----- */}
             <RequestDetailsItemSubHeader subheading="General Details" />
             {/* NIC */}
-            <RequestDetailsItem title="NIC" value="NIC value" />
+            <RequestDetailsItem title="NIC" value={request.nic_number} />
             {/* Email */}
-            <RequestDetailsItem title="Email" value="Email value" />
+            <RequestDetailsItem title="Email" value={request.email} />
 
             {/* ----- Address ----- */}
             <RequestDetailsItemSubHeader subheading="Address" />
             {/* House No */}
-            <RequestDetailsItem title="House No" value="House No value" />
+            <RequestDetailsItem title="House No" value={request.house_no} />
             {/* Street */}
-            <RequestDetailsItem title="Street" value="Street value" />
+            <RequestDetailsItem title="Street" value={request.street} />
             {/* City */}
-            <RequestDetailsItem title="City" value="City value" />
+            <RequestDetailsItem title="City" value={request.city} />
             {/* District */}
-            <RequestDetailsItem title="District" value="District value" />
+            <RequestDetailsItem title="District" value={request.district} />
             {/* Province */}
-            <RequestDetailsItem title="Province" value="Province value" />
+            <RequestDetailsItem title="Province" value={request.province} />
 
             {/* ---------- Grama Sevaka Records ---------- */}
             <RequestDetailsItemHeader heading="Grama Sevaka Records" />
