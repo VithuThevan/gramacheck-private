@@ -57,7 +57,7 @@ function Navbar() {
               firstName: basicUserDetails.givenName,
               lastName: basicUserDetails.familyName,
               email: basicUserDetails.username,
-              group: basicUserDetails.groups
+              group: basicUserDetails.groups,
             };
             setUser(userData);
             if (userData.group !== undefined) {
@@ -70,7 +70,7 @@ function Navbar() {
             console.log(error);
           });
       }
-    }
+    };
     getBasicUserDetails();
   }, [state.isAuthenticated, getBasicUserInfo]);
 
@@ -79,10 +79,12 @@ function Navbar() {
       <div className="navbar__container">
         {/* Logo */}
         <div className="navbar__logo">
-          <img
-            src={windowSize[0] < 700 ? GramaCheckLogoV1 : GramaCheckLogoV2}
-            alt=""
-          />
+          <Link to="/get-started">
+            <img
+              src={windowSize[0] < 700 ? GramaCheckLogoV1 : GramaCheckLogoV2}
+              alt=""
+            />
+          </Link>
         </div>
         {/* Username */}
         <div className="navbar__username">
@@ -114,8 +116,9 @@ function Navbar() {
               src={`https://ui-avatars.com/api/?background=${Colors.primary_regular.replace(
                 "#",
                 ""
-              )}&color=${Colors.white.replace("#", "")}&name=${user.firstName
-                }+${user.lastName}`}
+              )}&color=${Colors.white.replace("#", "")}&name=${
+                user.firstName
+              }+${user.lastName}`}
               alt=""
               onClick={() => setDisplay(!display)}
             />
@@ -126,22 +129,29 @@ function Navbar() {
             style={display ? { display: "flex" } : { display: "none" }}
           >
             {/* Signout */}
-            <div className="navbar__menu__item__signout" onClick={() => {
-              localStorage.removeItem("user");
-              signOut();
-            }}>
+            <div
+              className="navbar__menu__item__signout"
+              onClick={() => {
+                localStorage.removeItem("user");
+                signOut();
+              }}
+            >
               <ExitToAppIcon />
               <p>Signout</p>
             </div>
             {/* Help */}
-            {!isGS &&
-              <div className="navbar__menu__item__help">
-                <Link to="/help" style={{ textDecoration: "none" }}>
+            {!isGS && (
+              <Link
+                to="/help"
+                className="navbar__menu__item__help"
+                style={{ textDecoration: "none" }}
+              >
+                <div className="navbar__menu__item__help__container">
                   <HelpOutlineIcon />
                   <p>Help</p>
-                </Link>
-              </div>
-            }
+                </div>
+              </Link>
+            )}
           </div>
         </div>
       </div>

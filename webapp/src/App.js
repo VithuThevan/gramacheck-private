@@ -15,6 +15,7 @@ import StatusPendingPage from "./pages/StatusPendingPage/StatusPendingPage";
 import StatusRejectedPage from "./pages/StatusRejectedPage/StatusRejectedPage";
 import RequestFormPage from "./pages/RequestFormPage/RequestFormPage";
 import GramaSevakaDashboardPage from "./pages/GramaSevakaDashboardPage/GramaSevakaDashboardPage";
+import HelpPage from "./pages/HelpPage/HelpPage";
 
 function App() {
   // Asgardeo Auth Context
@@ -25,6 +26,10 @@ function App() {
       <>
         {state.isAuthenticated ? (
           <Switch>
+            {/* Help */}
+            <Route path="/help">
+              <HelpPage />
+            </Route>
             {/* StatusRejected */}
             <Route path="/status-rejected">
               <StatusRejectedPage />
