@@ -1,5 +1,5 @@
 /* ----- Help.js ----- */
-import React from "react";
+import React, { useState } from "react";
 import "./Help.scss";
 
 // Assets
@@ -14,10 +14,38 @@ import InputTextArea from "../../ui-library/InputTextArea/InputTextArea";
 
 function Help() {
   // State
+  const [message, setMessage] = useState("");
 
-  // useEffect
+  // Choreo base endpoint
+  const API_HOST =
+    "https://f82fbb50-01e1-4078-a9f8-0d4ed79a518a-dev.e1-us-east-azure.choreoapis.dev/sbmq/slack/slackapp-17a/1.0.0";
+
+  // Asgardeo access token
+  const TOKEN = JSON.parse(
+    sessionStorage.getItem("session_data-instance_0")
+  ).access_token;
 
   // Fucnctions
+  const sendMessage = () => {
+    var url = API_HOST + `/help/?user_message=${message}`;
+
+    var requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + TOKEN,
+      },
+      redirect: "follow",
+    };
+
+    fetch(url, requestOptions)
+      .then((response) => {
+        if (response.ok) {
+          setMessage("");
+        }
+      })
+      .catch((error) => console.log(error));
+  }
 
   return (
     <div className="help">
@@ -44,10 +72,12 @@ function Help() {
                     <InputTextArea
                       placeholder="Enter Your Message"
                       height={10}
+                      value={message}
+                      setValue={setMessage}
                     />
                   </div>
                   <div className="help__content__details__content__button">
-                    <Button variant="primary">SUBMIT</Button>
+                    <Button variant="primary" onClick={sendMessage}>SUBMIT</Button>
                   </div>
                 </div>
                 <div className="help__content__details__image">
