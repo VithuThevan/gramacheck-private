@@ -16,6 +16,7 @@ import StatusRejectedPage from "./pages/StatusRejectedPage/StatusRejectedPage";
 import RequestFormPage from "./pages/RequestFormPage/RequestFormPage";
 import GramaSevakaDashboardPage from "./pages/GramaSevakaDashboardPage/GramaSevakaDashboardPage";
 import HelpPage from "./pages/HelpPage/HelpPage";
+import LoaderPage from "./pages/LoaderPage/LoaderPage";
 
 function App() {
   // Asgardeo Auth Context
