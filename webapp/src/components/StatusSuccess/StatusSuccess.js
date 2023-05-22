@@ -13,6 +13,41 @@ import Navbar from "../Navbar/Navbar";
 import { Link } from "react-router-dom";
 
 function StatusSuccess() {
+   const API_HOST =
+    "https://f82fbb50-01e1-4078-a9f8-0d4ed79a518a-dev.e1-us-east-azure.choreoapis.dev/sbmq/grama-check/requestservice-369/1.0.0";
+
+  // Asgardeo access token
+  const TOKEN = JSON.parse(
+    sessionStorage.getItem("session_data-instance_0")
+  ).access_token;
+  const updateStatus = () => {
+    console.log("Update Status");
+  const email = JSON.parse(localStorage.getItem("user")).email;
+  const requestId = JSON.parse(localStorage.getItem("requestId")).requestId;
+    const url = API_HOST+"/request/"+requestId;
+const requestStatus={
+  requestId:requestId,
+  status:"completed"
+}
+    var requestOptions = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + TOKEN,
+      },
+      body: JSON.stringify(requestStatus),
+      redirect: "follow",
+    };
+
+    fetch(url, requestOptions)
+      .then((response) => {
+        if (response.ok) {
+          console.log("Request status updated successfully");
+          window.location.href = "/request-form";
+        }
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <div className="statusSuccess">
       <div className="statusSuccess__container">
@@ -33,11 +68,11 @@ function StatusSuccess() {
             </p>
           </div>
           <div className="statusSuccess__content__buttons">
-            <Link to="/check-status">
-              <Button variant="primary">GO BACK</Button>
+            <Link to="/request-form">
+              <Button variant="primary" onClick={updateStatus}>GO BACK</Button>
             </Link>
             <Link to="/">
-              <Button variant="secondary">DOWNLOAD</Button>
+              <Button variant="secondary"onClick={updateStatus}>DOWNLOAD</Button>
             </Link>
           </div>
         </div>

@@ -1,5 +1,4 @@
 /* ----- App.js ----- */
-import { useEffect } from "react";
 import "./App.scss";
 
 // Libraries & Packages
@@ -15,37 +14,22 @@ import StatusSuccessPage from "./pages/StatusSuccessPage/StatusSuccessPage";
 import StatusPendingPage from "./pages/StatusPendingPage/StatusPendingPage";
 import StatusRejectedPage from "./pages/StatusRejectedPage/StatusRejectedPage";
 import RequestFormPage from "./pages/RequestFormPage/RequestFormPage";
+import GramaSevakaDashboardPage from "./pages/GramaSevakaDashboardPage/GramaSevakaDashboardPage";
+import HelpPage from "./pages/HelpPage/HelpPage";
 
 function App() {
   // Asgardeo Auth Context
-  const { state, getBasicUserInfo } = useAuthContext();
+  const { state } = useAuthContext();
 
   const Routing = () => {
-    // useEffect
-    useEffect(() => {
-      if (state.isAuthenticated) {
-        getBasicUserInfo()
-          .then((basicUserDetails) => {
-            console.log(basicUserDetails);
-            const user = {
-              firstName: basicUserDetails.givenName,
-              lastName: basicUserDetails.familyName,
-              email: basicUserDetails.email,
-            };
-            localStorage.setItem("user", JSON.stringify(user));
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } else {
-        localStorage.removeItem("user");
-      }
-    }, []);
-
     return (
       <>
         {state.isAuthenticated ? (
           <Switch>
+            {/* Help */}
+            <Route path="/help">
+              <HelpPage />
+            </Route>
             {/* StatusRejected */}
             <Route path="/status-rejected">
               <StatusRejectedPage />
@@ -73,6 +57,10 @@ function App() {
             {/* GetStarted */}
             <Route path="/get-started">
               <GetStartedPage />
+            </Route>
+            {/* GramaSevakaDashboard */}
+            <Route path="/grama-sevaka-dashboard">
+              <GramaSevakaDashboardPage />
             </Route>
           </Switch>
         ) : (

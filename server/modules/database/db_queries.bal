@@ -44,6 +44,7 @@ isolated function getRequestQuery(string email) returns sql:ParameterizedQuery {
         request
     WHERE 
         email = ${email}
+        AND status!="completed"
        
     `;
 }
@@ -68,8 +69,20 @@ isolated function getAllRequestQuery()returns sql:ParameterizedQuery {
        *
     FROM 
         request
-        WHERE status ="pending"
+        WHERE status!="completed"
     `;
+}
+
+isolated function getCitizenQuery(string nic_number)returns sql:ParameterizedQuery {
+
+    io:println("getCitizenQuery");
+    return `
+    SELECT 
+       *
+    FROM 
+        citizen
+        WHERE 
+        nic=${nic_number}    `;
 }
 
 isolated function updateRequestQuery(types:requestStatus request) returns sql:ParameterizedQuery {

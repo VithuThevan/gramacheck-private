@@ -8,7 +8,7 @@
 
   .getStarted__container {
     width: 100%;
-    min-height: 100vh;
+  
     padding-bottom: 50px;
 
     background: linear-gradient(
@@ -25,7 +25,7 @@
 
   .getStarted__content {
     width: 95%;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 60px);
     // background-color: coral;
 
     margin: 0px auto;
@@ -35,18 +35,18 @@
 
     .getStarted__content__image {
       width: 100%;
-      height: 500px;
+      height: 400px;
       //   background-color: lightgreen;
 
       @include flexbox;
 
       img {
-        height: 400px;
+        height: 300px;
       }
     }
     .getStarted__content__title1 {
       width: 100%;
-      height: 80px;
+      height: 60px;
       //   background-color: lightcoral;
 
       @include flexbox;
@@ -61,7 +61,7 @@
     }
     .getStarted__content__title2 {
       width: 100%;
-      min-height: 100px;
+      min-height: 80px;
       //   background-color: lightgreen;
 
       @include flexbox;

@@ -33,6 +33,7 @@ function Navbar() {
   ]);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [display, setDisplay] = useState();
+  const [isGS, setIsGS] = useState(false);
 
   // useEffect
   useEffect(() => {
@@ -48,20 +49,29 @@ function Navbar() {
 
   // useEffect
   useEffect(() => {
-    if (state.isAuthenticated) {
-      getBasicUserInfo()
-        .then((basicUserDetails) => {
-          const userData = {
-            firstName: basicUserDetails.givenName,
-            lastName: basicUserDetails.familyName,
-            email: basicUserDetails.username,
-          };
-          setUser(userData);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    const getBasicUserDetails = () => {
+      if (state.isAuthenticated) {
+        getBasicUserInfo()
+          .then((basicUserDetails) => {
+            const userData = {
+              firstName: basicUserDetails.givenName,
+              lastName: basicUserDetails.familyName,
+              email: basicUserDetails.username,
+              group: basicUserDetails.groups,
+            };
+            setUser(userData);
+            if (userData.group !== undefined) {
+              if (userData.group[0] === "GramaSevaka") {
+                setIsGS(true);
+              }
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    };
+    getBasicUserDetails();
   }, [state.isAuthenticated, getBasicUserInfo]);
 
   return (
@@ -69,10 +79,12 @@ function Navbar() {
       <div className="navbar__container">
         {/* Logo */}
         <div className="navbar__logo">
-          <img
-            src={windowSize[0] < 700 ? GramaCheckLogoV1 : GramaCheckLogoV2}
-            alt=""
-          />
+          <Link to="/get-started">
+            <img
+              src={windowSize[0] < 700 ? GramaCheckLogoV1 : GramaCheckLogoV2}
+              alt=""
+            />
+          </Link>
         </div>
         {/* Username */}
         <div className="navbar__username">
@@ -117,27 +129,31 @@ function Navbar() {
             style={display ? { display: "flex" } : { display: "none" }}
           >
             {/* Signout */}
-            <div className="navbar__menu__item__signout" onClick={signOut}>
+            <div
+              className="navbar__menu__item__signout"
+              onClick={() => {
+                localStorage.removeItem("user");
+                signOut();
+              }}
+            >
               <ExitToAppIcon />
               <p>Signout</p>
             </div>
             {/* Help */}
-
-            <div className="navbar__menu__item__help">
-              <Link to="/help" style={{ textDecoration: "none" }}>
-                <HelpOutlineIcon />
-                <p>Help</p>
+            {!isGS && (
+              <Link
+                to="/help"
+                className="navbar__menu__item__help"
+                style={{ textDecoration: "none" }}
+              >
+                <div className="navbar__menu__item__help__container">
+                  <HelpOutlineIcon />
+                  <p>Help</p>
+                </div>
               </Link>
-            </div>
+            )}
           </div>
         </div>
-
-        {/* Signout */}
-        {/* <div className="navbar__signout">
-          <Button variant="primary" onClick={signOut}>
-            SIGNOUT
-          </Button>
-        </div> */}
       </div>
     </div>
   );
