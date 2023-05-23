@@ -63,6 +63,10 @@ function App() {
             <Route path="/grama-sevaka-dashboard">
               <GramaSevakaDashboardPage />
             </Route>
+            {/* Loader */}
+            <Route path="/loader">
+              <LoaderPage />
+            </Route>
           </Switch>
         ) : (
           <Switch>
