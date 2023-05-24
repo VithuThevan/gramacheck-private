@@ -99,13 +99,13 @@ function GramaSevakaDashboard() {
         // Handle the response data here
         console.log(data+"identity");
         if(data===true){
-          setIdentity("Identity verified");
+          setIdentity("Identity verified ✅");
         }else{
-          setIdentity("Identity is not verified");
+          setIdentity("Identity is not verified ❌");
         }
       }).catch(error => {
         console.log(error);
-        setIdentity("Identity is not verified"); // set the identity state as false in case of error
+        setIdentity("Identity is not verified ❌"); // set the identity state as false in case of error
       });
 
         var url2 = API_HOST + "/policestatus/"+nic;
@@ -124,13 +124,13 @@ function GramaSevakaDashboard() {
         // Handle the response data here
           console.log(data+"police");
           if (data===1){
-          setPoliceCheck("Criminal records found");
+            setPoliceCheck("Criminal records found ❌");
           }else if(data===0){
-          setPoliceCheck("No criminal records found");
+            setPoliceCheck("No criminal records found ✅");
           }else{
-          setPoliceCheck("Police check failed");
+            setPoliceCheck("Police check failed ❌");
         }
-        }).catch(error => {setPoliceCheck("Police check failed");console.log(error)});  
+      }).catch(error => { setPoliceCheck("Police check failed ❌");console.log(error)});  
           var url3 = API_HOST + "/address/"+request_id;
 
     var requestOption3 = {
@@ -147,12 +147,12 @@ function GramaSevakaDashboard() {
         // Handle the response data here
         console.log(data);
             if (data==1){
-          setAddressCheck("Address verified");
+              setAddressCheck("Address verified ✅");
         }
         else {
-          setAddressCheck("Address Check Failed")
+              setAddressCheck("Address Check Failed ❌")
         }
-          }).catch(error => {setAddressCheck("Not in the Database"); console.log(error);});
+      }).catch(error => { setAddressCheck("Not in the Database ❌"); console.log(error);});
   };
 
 
