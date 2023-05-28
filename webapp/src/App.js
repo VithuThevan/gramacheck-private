@@ -5,18 +5,19 @@ import "./App.scss";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useAuthContext } from "@asgardeo/auth-react";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // Pages
 import LandingPage from "./pages/LandingPage/LandingPage";
-import GetStartedPage from "./pages/GetStartedPage/GetStartedPage";
 import RequestSuccessPage from "./pages/RequestSuccessPage/RequestSuccessPage";
 import CheckStatusPage from "./pages/CheckStatusPage/CheckStatusPage";
 import StatusSuccessPage from "./pages/StatusSuccessPage/StatusSuccessPage";
 import StatusPendingPage from "./pages/StatusPendingPage/StatusPendingPage";
 import StatusRejectedPage from "./pages/StatusRejectedPage/StatusRejectedPage";
 import RequestFormPage from "./pages/RequestFormPage/RequestFormPage";
-import GramaSevakaDashboardPage from "./pages/GramaSevakaDashboardPage/GramaSevakaDashboardPage";
 import HelpPage from "./pages/HelpPage/HelpPage";
-import LoaderPage from "./pages/LoaderPage/LoaderPage";
+import RedirectPage from "./pages/RedirectPage/RedirectPage";
 
 function App() {
   // Asgardeo Auth Context
@@ -55,17 +56,9 @@ function App() {
             <Route path="/request-form">
               <RequestFormPage />
             </Route>
-            {/* GetStarted */}
-            <Route path="/get-started">
-              <GetStartedPage />
-            </Route>
-            {/* GramaSevakaDashboard */}
-            <Route path="/grama-sevaka-dashboard">
-              <GramaSevakaDashboardPage />
-            </Route>
             {/* Loader */}
             <Route path="/loader">
-              <LoaderPage />
+              <RedirectPage />
             </Route>
           </Switch>
         ) : (
@@ -84,6 +77,7 @@ function App() {
     <div className="app">
       <Router>
         <Routing />
+        <ToastContainer theme="light" />
       </Router>
     </div>
   );

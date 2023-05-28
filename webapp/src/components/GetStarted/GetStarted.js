@@ -19,17 +19,24 @@ function GetStarted() {
   ).access_token;
 
   const getUserStatus = () => {
-    var url = API_HOST + `/request/${JSON.parse(localStorage.getItem("user")).email}`;
+    var url =
+      API_HOST + `/request/${JSON.parse(localStorage.getItem("user")).email}`;
 
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: {
         Authorization: "Bearer " + TOKEN,
       },
-      redirect: 'follow'
-    }
+      redirect: "follow",
+    };
 
-    fetch(url, requestOptions).then(response => { if (response.ok) { window.location.href = "/check-status" } else window.location.href = "/request-form" })
+    fetch(url, requestOptions).then((response) => {
+      if (response.ok) {
+        window.location.href = "/check-status";
+      } else {
+        window.location.href = "/request-form";
+      }
+    });
   };
 
   return (

@@ -166,6 +166,21 @@
         text-transform: uppercase;
       }
     }
+    .gramaSevakaDashboard__popup__body {
+      .gramaSevakaDashboard__popup__body__generalDeails__fallback {
+        width: 100%;
+        height: 50px;
+        background-color: lightgreen;
+        background-color: rgba($red-light, 1);
+
+        @include flexbox;
+
+        border-radius: 5px;
+        p {
+          color: $red-regular;
+        }
+      }
+    }
 
     .gramaSevakaDashboard__popup__buttons {
       width: 100%;
