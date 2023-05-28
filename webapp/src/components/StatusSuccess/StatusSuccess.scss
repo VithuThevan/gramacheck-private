@@ -9,7 +9,6 @@
   .statusSuccess__container {
     width: 100%;
     min-height: 100vh;
-    padding-bottom: 50px;
 
     background: linear-gradient(
         0deg,
@@ -29,6 +28,7 @@
     // background-color: coral;
 
     margin: 0px auto;
+    padding-bottom: 50px;
 
     @include flexbox;
     flex-direction: column;

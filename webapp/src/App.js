@@ -56,8 +56,8 @@ function App() {
             <Route path="/request-form">
               <RequestFormPage />
             </Route>
-            {/* Loader */}
-            <Route path="/loader">
+            {/* Ridirect */}
+            <Route path="/dashboard">
               <RedirectPage />
             </Route>
           </Switch>

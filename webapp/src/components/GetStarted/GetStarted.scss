@@ -1,4 +1,4 @@
-/* ----- GetStarted.scss ----- */
+/* ----- StatusSuccess.scss ----- */
 @import "../../utils/styles/Theme.scss";
 
 .getStarted {
@@ -8,8 +8,7 @@
 
   .getStarted__container {
     width: 100%;
-  
-    padding-bottom: 50px;
+    min-height: 100vh;
 
     background: linear-gradient(
         0deg,
@@ -25,28 +24,29 @@
 
   .getStarted__content {
     width: 95%;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 80px);
     // background-color: coral;
 
     margin: 0px auto;
+    padding-bottom: 50px;
 
     @include flexbox;
     flex-direction: column;
 
     .getStarted__content__image {
       width: 100%;
-      height: 400px;
+      height: 500px;
       //   background-color: lightgreen;
 
       @include flexbox;
 
       img {
-        height: 300px;
+        height: 400px;
       }
     }
     .getStarted__content__title1 {
       width: 100%;
-      height: 60px;
+      height: 80px;
       //   background-color: lightcoral;
 
       @include flexbox;
@@ -61,7 +61,7 @@
     }
     .getStarted__content__title2 {
       width: 100%;
-      min-height: 80px;
+      min-height: 100px;
       //   background-color: lightgreen;
 
       @include flexbox;
@@ -76,9 +76,13 @@
     .getStarted__content__buttons {
       width: 100%;
       height: 50px;
-      //   background-color: lightcoral;
+      // background-color: lightcoral;
 
       @include flexbox;
+
+      :first-child {
+        margin-right: 10px;
+      }
     }
   }
 }
