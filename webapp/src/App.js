@@ -8,6 +8,8 @@ import { useAuthContext } from "@asgardeo/auth-react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { PDFViewer } from "@react-pdf/renderer";
+
 // Pages
 import LandingPage from "./pages/LandingPage/LandingPage";
 import RequestSuccessPage from "./pages/RequestSuccessPage/RequestSuccessPage";
@@ -18,6 +20,7 @@ import StatusRejectedPage from "./pages/StatusRejectedPage/StatusRejectedPage";
 import RequestFormPage from "./pages/RequestFormPage/RequestFormPage";
 import HelpPage from "./pages/HelpPage/HelpPage";
 import RedirectPage from "./pages/RedirectPage/RedirectPage";
+import PDF from "./components/StatusSuccess/Utils/PDF/PDF";
 
 function App() {
   // Asgardeo Auth Context
@@ -59,6 +62,14 @@ function App() {
             {/* Ridirect */}
             <Route path="/dashboard">
               <RedirectPage />
+            </Route>
+            {/* PDF */}
+            <Route path="/pdf">
+              <div style={{ height: "100vh", backgroundColor: "light-green" }}>
+                <PDFViewer width={"100%"} height={"100%"}>
+                  <PDF />
+                </PDFViewer>
+              </div>
             </Route>
           </Switch>
         ) : (

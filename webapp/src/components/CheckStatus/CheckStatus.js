@@ -21,7 +21,6 @@ function CheckStatus() {
     sessionStorage.getItem("session_data-instance_0")
   ).access_token;
 
-
   const statuscheck = () => {
     console.log("Check Status");
     const email = JSON.parse(localStorage.getItem("user")).email;
@@ -38,8 +37,8 @@ function CheckStatus() {
     };
 
     fetch(url, requestOptions)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         // Handle the response data here
         console.log(data);
         const requestId = {
@@ -49,7 +48,7 @@ function CheckStatus() {
         // This will log the response data to the console.
         console.log(data.request_id);
         // Redirect to the appropriate page based on the request status
-        if (data.status === "success") {
+        if (data.status === "approved") {
           console.log(data.requestId);
           window.location.href = "/status-success";
         } else if (data.status === "pending") {
@@ -58,7 +57,7 @@ function CheckStatus() {
           window.location.href = "/status-rejected?reason=" + data.reason;
         }
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   return (

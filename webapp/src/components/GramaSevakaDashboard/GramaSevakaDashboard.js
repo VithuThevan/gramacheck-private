@@ -499,6 +499,8 @@ function RequestDetailsItemHeader({ heading }) {
   );
 }
 
+export { RequestDetailsItemHeader };
+
 function RequestDetailsItemSubHeader({ subheading }) {
   return (
     <div className="requestDetailsItemSubHeader">
@@ -506,6 +508,7 @@ function RequestDetailsItemSubHeader({ subheading }) {
     </div>
   );
 }
+export { RequestDetailsItemSubHeader };
 
 function RequestDetailsItem({ title, value }) {
   return (
@@ -526,3 +529,5 @@ function RequestDetailsItem({ title, value }) {
     </div>
   );
 }
+
+export { RequestDetailsItem };
