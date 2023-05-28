@@ -11,6 +11,8 @@ import Navbar from "../Navbar/Navbar";
 
 // Libraries & Packages
 import InputTextArea from "../../ui-library/InputTextArea/InputTextArea";
+import { toast } from "react-toastify";
+import { TOAST_PROPERTIES } from "../../utils/helpers/Helper";
 
 function Help() {
   // State
@@ -27,6 +29,12 @@ function Help() {
 
   // Fucnctions
   const sendMessage = () => {
+    //Validations
+    if (message === "") {
+      toast.error("Error, message is empty!", TOAST_PROPERTIES);
+      return;
+    }
+
     var url = API_HOST + `/help/?user_message=${message}`;
 
     var requestOptions = {
@@ -42,10 +50,13 @@ function Help() {
       .then((response) => {
         if (response.ok) {
           setMessage("");
+          toast.success("Message sent successfully!", TOAST_PROPERTIES);
         }
       })
-      .catch((error) => console.log(error));
-  }
+      .catch((error) => {
+        toast.error("Error in sending the message!", TOAST_PROPERTIES);
+      });
+  };
 
   return (
     <div className="help">
@@ -77,7 +88,9 @@ function Help() {
                     />
                   </div>
                   <div className="help__content__details__content__button">
-                    <Button variant="primary" onClick={sendMessage}>SUBMIT</Button>
+                    <Button variant="primary" onClick={sendMessage}>
+                      SUBMIT
+                    </Button>
                   </div>
                 </div>
                 <div className="help__content__details__image">
