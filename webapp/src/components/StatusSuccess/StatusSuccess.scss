@@ -80,8 +80,12 @@
 
       @include flexbox;
 
-      :first-child {
-        margin-right: 10px;
+      .statusSuccess__content__button__goback {
+      }
+      .statusSuccess__content__button__create {
+        margin: 0px 10px;
+      }
+      .statusSuccess__content__button__download {
       }
     }
   }
