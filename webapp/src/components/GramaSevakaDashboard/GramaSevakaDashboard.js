@@ -21,6 +21,9 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import Popup from "../../ui-library/Popup/Popup";
 import InputTextArea from "../../ui-library/InputTextArea/InputTextArea";
 
+//Helpers
+import { TOAST_PROPERTIES } from "../../utils/helpers/Helper";
+
 function GramaSevakaDashboard() {
   // Choreo base endpoint
   const API_HOST =
@@ -428,16 +431,10 @@ function GramaSevakaDashboard() {
               onClick={() => {
                 setDisplayRejectPopup(false);
                 updateStatus(request.request_id, "rejected");
-                toast.success("Citizen Request Rejected Successfully!", {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "dark",
-                });
+                toast.success(
+                  "Citizen Request Rejected Successfully!",
+                  TOAST_PROPERTIES
+                );
                 setTimeout(function () {
                   window.location.reload();
                 }, 3000);
@@ -472,16 +469,10 @@ function GramaSevakaDashboard() {
               onClick={() => {
                 updateStatus(request.request_id, "approved");
                 setDisplayApprovePopup(false);
-                toast.success("Citizen Request Approved Successfully!", {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "dark",
-                });
+                toast.success(
+                  "Citizen Request Approved Successfully!",
+                  TOAST_PROPERTIES
+                );
                 setTimeout(function () {
                   window.location.reload();
                 }, 3000);
