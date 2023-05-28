@@ -79,7 +79,7 @@ function Navbar() {
       <div className="navbar__container">
         {/* Logo */}
         <div className="navbar__logo">
-          <Link to="/get-started">
+          <Link to="/dashboard">
             <img
               src={windowSize[0] < 700 ? GramaCheckLogoV1 : GramaCheckLogoV2}
               alt=""
