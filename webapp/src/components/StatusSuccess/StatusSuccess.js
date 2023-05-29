@@ -26,6 +26,14 @@ function StatusSuccess() {
     sessionStorage.getItem("session_data-instance_0")
   ).access_token;
 
+  // Use Effects
+  useEffect(() => {
+
+
+
+    
+  }, []);
+
   useEffect(() => {
     getCitizenDetails();
   }, []);
