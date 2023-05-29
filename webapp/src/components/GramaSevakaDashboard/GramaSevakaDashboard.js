@@ -182,12 +182,13 @@ function GramaSevakaDashboard() {
   const [displayApprovePopup, setDisplayApprovePopup] = useState(false);
 
   const [value, setValue] = useState("");
-  const updateStatus = (requestId, status) => {
+  const updateStatus = (requestId, status, reason) => {
     console.log("Update Status");
     const url = API_HOST + "/request/" + requestId;
     const requestStatus = {
       requestId: requestId,
       status: status,
+      reason: reason,
     };
     var requestOptions = {
       method: "PATCH",
@@ -430,7 +431,7 @@ function GramaSevakaDashboard() {
               variant="primary"
               onClick={() => {
                 setDisplayRejectPopup(false);
-                updateStatus(request.request_id, "rejected");
+                updateStatus(request.request_id, "rejected", value);
                 toast.success(
                   "Citizen Request Rejected Successfully!",
                   TOAST_PROPERTIES
@@ -467,7 +468,7 @@ function GramaSevakaDashboard() {
             <Button
               variant="primary"
               onClick={() => {
-                updateStatus(request.request_id, "approved");
+                updateStatus(request.request_id, "approved", "none");
                 setDisplayApprovePopup(false);
                 toast.success(
                   "Citizen Request Approved Successfully!",
