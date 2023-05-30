@@ -2,7 +2,7 @@
 import "./App.scss";
 
 // Libraries & Packages
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { useAuthContext } from "@asgardeo/auth-react";
 
 import { ToastContainer } from "react-toastify";
@@ -75,9 +75,14 @@ function App() {
         ) : (
           <Switch>
             {/* Landing */}
-            <Route path="/">
+            <Route exact path="/">
               <LandingPage />
             </Route>
+            <Route
+              render={() =>
+                <Redirect to="/" />
+              }
+            />
           </Switch>
         )}
       </>
