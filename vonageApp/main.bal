@@ -13,7 +13,7 @@ service /VonageApp on new http:Listener(9094) {
         'from: "Vonage APIs",
         to: "+94"+contact_number,
         api_secret: API_SECRET,
-        text: "Your request has been successfully accepted by the grama niladhari. Get your document in the App. Thank you!"
+        text: "Your request has been successfully reviewed by the grama niladhari. Get your document in the App. Thank you!"
     };
 
     vs:InlineResponse200|error response = baseClient->sendAnSms(message);
